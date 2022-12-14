@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Penalty;
-use App\FollowUp;
-use App\Insurance;
-use App\Evaluation;
 use Illuminate\Http\Request;
-use App\Imports\FollowUpImport;
+use App\FollowUp;
+use App\Evaluation;
+use App\Imports\PenaltyImport;
+use App\Insurance;
+use App\Penalty;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 
-class FollowUpController extends Controller
+class PenaltyController extends Controller
 {
     public function show()
     {
@@ -42,7 +42,7 @@ class FollowUpController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        Excel::import(new FollowUpImport, $request->file);
+        Excel::import(new PenaltyImport, $request->file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
 }

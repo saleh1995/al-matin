@@ -25,10 +25,11 @@ class EvaluationImport implements ToModel, WithHeadingRow, SkipsOnError
             'latest_evaluation' => $row['latest_evaluation'],
             'manager_evaluation' => $row['manager_evaluation'],
             'hr_evaluation' => $row['hr_evaluation'],
-            'social_security' => $row['social_security'],
-            'insurance_salary' => $row['insurance_salary'],
-            'date_registration' => $row['date_registration'],
-            'remaining_advance' => $row['remaining_advance'],
+            'pros' => $row['pros'],
+            'cons' => $row['cons'],
+            'manager_recommendations' => $row['manager_recommendations'],
+            'hr_recommendations' => $row['hr_recommendations'],
+
         ]);
     }
 

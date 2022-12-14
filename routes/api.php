@@ -6,6 +6,8 @@ use App\Http\Controllers\api\AuthController as APIAuthController;
 use App\Http\Controllers\api\UsersImportController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\FollowUpController;
+use App\Http\Controllers\InsurnaceController;
+use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\SalaryController;
 
 /*
@@ -33,4 +35,6 @@ Route::middleware('auth:api')->group(function () {
 Route::post('users/import', [UsersImportController::class, 'store']);
 Route::post('salary/import', [SalaryController::class, 'store']);
 Route::post('evaluation/import', [EvaluationController::class, 'store']);
+Route::post('insurance/import', [InsurnaceController::class, 'store']);
 Route::post('followup/import', [FollowUpController::class, 'store']);
+Route::post('penalty/import', [PenaltyController::class, 'store']);

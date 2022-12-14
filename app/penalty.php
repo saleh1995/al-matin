@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class penalty extends Model
+class Penalty extends Model
 {
     protected $fillable = [
         'job_id', 'penalties', 'final_ammount', 'penalties_date',
