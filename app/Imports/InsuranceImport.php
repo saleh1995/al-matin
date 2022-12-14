@@ -21,11 +21,12 @@ class InsuranceImport implements ToModel, WithHeadingRow, SkipsOnError
      */
     public function model(array $row)
     {
+        dd(strtotime($row['date_registration']));
         return new Insurance([
             'job_id' => $row['job_id'],
             'social_security' => $row['social_security'],
             'insurance_salary' => $row['insurance_salary'],
-            'date_registration' => Date::excelToDateTimeObject($row['date_registration']),
+            'date_registration' => ((strtotime($row['date_registration']) != NULL) ? NULL : Date::excelToDateTimeObject($row['date_registration'])),
             'social_insurance_number' => $row['social_insurance_number'],
             // 'remaining_advance' => $row['remaining_advance'],
         ]);
