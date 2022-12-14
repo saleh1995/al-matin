@@ -16,11 +16,11 @@ class CreateInsurancesTable extends Migration
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_id')->nullable()->unique()->constrained('users', 'job_id')->nullOnDelete();
-            $table->string('social_insurance');
-            $table->decimal('insurance_salary');
-            $table->date('date_registration');
-            $table->integer('social_insurance_number');
-            $table->integer('remaining_advance');
+            $table->string('social_insurance')->nullable();
+            $table->decimal('insurance_salary')->default(0);
+            $table->date('date_registration')->nullable();
+            $table->integer('social_insurance_number')->default(0);
+            $table->integer('remaining_advance')->default(0);
             $table->timestamps();
         });
     }

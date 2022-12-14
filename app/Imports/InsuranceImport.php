@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Throwable;
 
 class InsuranceImport implements ToModel, WithHeadingRow, SkipsOnError
@@ -24,9 +25,9 @@ class InsuranceImport implements ToModel, WithHeadingRow, SkipsOnError
             'job_id' => $row['job_id'],
             'social_security' => $row['social_security'],
             'insurance_salary' => $row['insurance_salary'],
-            'date_registration' => $row['date_registration'],
+            'date_registration' => Date::excelToDateTimeObject($row['date_registration']),
             'social_insurance_number' => $row['social_insurance_number'],
-            'remaining_advance' => $row['remaining_advance'],
+            // 'remaining_advance' => $row['remaining_advance'],
         ]);
     }
 

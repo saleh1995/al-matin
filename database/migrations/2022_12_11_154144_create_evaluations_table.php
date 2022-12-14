@@ -16,13 +16,13 @@ class CreateEvaluationsTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_id')->nullable()->unique()->constrained('users', 'job_id')->nullOnDelete();
-            $table->integer('latest_evaluation');
-            $table->integer('manager_evaluation');
-            $table->integer('hr_evaluation');
-            $table->text('pros');
-            $table->text('cons');
-            $table->text('manager_recommendations');
-            $table->text('hr_recommendations');
+            $table->integer('latest_evaluation')->default(0);
+            $table->integer('manager_evaluation')->default(0);
+            $table->integer('hr_evaluation')->default(0);
+            $table->text('pros')->nullable();
+            $table->text('cons')->nullable();
+            $table->text('manager_recommendations')->nullable();
+            $table->text('hr_recommendations')->nullable();
             $table->timestamps();
         });
     }

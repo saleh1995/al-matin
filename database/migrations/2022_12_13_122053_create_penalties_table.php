@@ -16,9 +16,9 @@ class CreatePenaltiesTable extends Migration
         Schema::create('penalties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_id')->nullable()->unique()->constrained('users', 'job_id')->nullOnDelete();
-            $table->string('penalties');
-            $table->decimal('final_ammount');
-            $table->date('penalties_date');
+            $table->string('penalties')->nullable();
+            $table->decimal('final_ammount')->default(0);
+            $table->date('penalties_date')->nullable();
             $table->timestamps();
         });
     }
