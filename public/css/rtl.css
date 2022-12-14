@@ -1,0 +1,24 @@
+html,
+body {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.form-check-input {
+    position: static;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.dropdown-menu {
+    text-align: right;
+}
+
+@media (min-width: 768px) {
+    .text-md-right {
+        text-align: left !important;
+    }
+    .offset-md-4 {
+        margin-right: 33.33333333%;
+    }
+}
