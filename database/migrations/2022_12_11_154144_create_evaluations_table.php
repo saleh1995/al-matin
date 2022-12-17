@@ -16,9 +16,9 @@ class CreateEvaluationsTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_id')->nullable()->unique()->constrained('users', 'job_id')->nullOnDelete();
-            $table->integer('latest_evaluation')->default(0);
-            $table->integer('manager_evaluation')->default(0);
-            $table->integer('hr_evaluation')->default(0);
+            $table->integer('latest_evaluation')->nullable();
+            $table->integer('manager_evaluation')->nullable();
+            $table->integer('hr_evaluation')->nullable();
             $table->text('pros')->nullable();
             $table->text('cons')->nullable();
             $table->text('manager_recommendations')->nullable();

@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Throwable;
 
-class InsuranceImport implements ToModel, WithHeadingRow, SkipsOnError
+class InsuranceImport implements ToModel, WithHeadingRow
 {
     use Importable;
 
@@ -21,18 +21,14 @@ class InsuranceImport implements ToModel, WithHeadingRow, SkipsOnError
      */
     public function model(array $row)
     {
-        dd(strtotime($row['date_registration']));
+        // dd($row['date_registration']);
         return new Insurance([
             'job_id' => $row['job_id'],
-            'social_security' => $row['social_security'],
-            'insurance_salary' => $row['insurance_salary'],
-            'date_registration' => ((strtotime($row['date_registration']) != NULL) ? NULL : Date::excelToDateTimeObject($row['date_registration'])),
-            'social_insurance_number' => $row['social_insurance_number'],
+            'social_insurance' => $row['social_insurance'] == 'تامينات اجتماعية' ? 1 : 0,
+            'insurance_salary' => $row['insurance_salary'] != NUll ? $row['insurance_salary'] : 0,
+            'date_registration' => Date::excelToDateTimeObject($row['date_registration']),
+            'social_insurance_number' => $row['social_insurance_number'] != NUll ? $row['social_insurance_number'] : 0,
             // 'remaining_advance' => $row['remaining_advance'],
         ]);
-    }
-
-    public function onError(Throwable $e)
-    {
     }
 }

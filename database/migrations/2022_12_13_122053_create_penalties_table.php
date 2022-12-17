@@ -17,7 +17,7 @@ class CreatePenaltiesTable extends Migration
             $table->id();
             $table->foreignId('job_id')->nullable()->unique()->constrained('users', 'job_id')->nullOnDelete();
             $table->string('penalties')->nullable();
-            $table->decimal('final_ammount')->default(0);
+            $table->decimal('final_ammount')->nullable();
             $table->date('penalties_date')->nullable();
             $table->timestamps();
         });
