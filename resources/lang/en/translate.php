@@ -11,6 +11,7 @@ return [
   'emp_id' => 'Job id',
   'emp_manager' => 'Department Manager',
   'emp_mobile' => 'Phone number',
+  'emp_internal_phone' => 'Internal Phone Number',
   'emp_name' => 'Name',
   'emp_place_of_job' => 'Place of Job',
   'employee_info' => 'Employee information',
@@ -93,5 +94,6 @@ return [
   'no_insurance_info' => 'You have no evaluation information, please refer Human Resources',
   'no_penalty_info' => 'You have no penalties',
   'no_followUp_info' => 'Please refer Human Resources',
-  'no_salary_info' => 'You do not have salary information, please refer Human Resources'
+  'no_salary_info' => 'You do not have salary information, please refer Human Resources',
+  'no_employees' => 'You do not have employees in your department',
 ];

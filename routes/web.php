@@ -30,13 +30,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::middleware('auth')->group(function () {
-
   Route::get('salary', 'SalaryController@show')->name('salary');
-
   Route::get('evaluation', 'EvaluationController@show')->name('evaluation');
+  Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('department.employees');
 
   Route::get('vacation_request', function () {
     return view('vacation_request');

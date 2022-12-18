@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row justify-content-center">
     @if ($salary == null)
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-info col-12 text-center" role="alert">
       {{ __('translate.no_salary_info') }}
     </div>
     @else

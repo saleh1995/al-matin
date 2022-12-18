@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\api\BaseController as BaseController;
 
-class UsersImportController extends BaseController
+class UserController extends BaseController
 {
     public function store(Request $request)
     {
@@ -43,5 +44,12 @@ class UsersImportController extends BaseController
         $user = Auth::user();
         $user['manager_name'] = collect(DB::select('select name from users where job_id = ?', [$user->manager_id]))->first()->name;
         return $this->sendResponse($user, 'User Data');
+    }
+
+
+    public function departmentEmployees()
+    {
+        $employees = User::all()->where('manager_id', '=', Auth::user()->job_id);
+        return view('employees', compact('employees'));
     }
 }

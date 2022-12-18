@@ -41,7 +41,7 @@
                           <tr>
                             <th scope="row">{{ __('translate.emp_manager') }} : </th>
                             <td>
-                                    {{ $user->manager->first()->name }}
+                              {{ $user->manager->first()->name ?? "" }}
                             </td>
                           </tr>
                         </tbody>
