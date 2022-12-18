@@ -42,7 +42,9 @@ class InsurnaceController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        Excel::import(new InsuranceImport, $request->file);
+        $file = $request->file('file')->store('Insurance');
+
+        Excel::import(new InsuranceImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
 }

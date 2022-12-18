@@ -42,11 +42,10 @@ class PenaltyController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        // new Penalty(['job_id' => 1]);
+        $file = $request->file('file')->store('Penalty');
 
-        // dd($request->file);
 
-        Excel::import(new PenaltyImport, $request->file);
+        Excel::import(new PenaltyImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
 }

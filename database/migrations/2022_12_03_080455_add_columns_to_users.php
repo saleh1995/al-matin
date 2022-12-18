@@ -58,7 +58,7 @@ class AddColumnsToUsers extends Migration
             // $table->dropColumn('manager_id');
             $table->dropForeign(['manager_id']);
 
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
         });
     }

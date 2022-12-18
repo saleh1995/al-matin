@@ -22,14 +22,14 @@ class FollowUpImport implements ToModel, WithHeadingRow, SkipsOnError
     {
         return new FollowUp([
             'job_id' => $row['job_id'],
-            'id_photo' => $row['id_photo'],
-            'residence_document' => $row['residence_document'],
-            'no_conviction' => $row['no_conviction'],
-            'individual_civil_record' => $row['individual_civil_record'],
-            'personal_photos' => $row['personal_photos'],
-            'certificate_copy' => $row['certificate_copy'],
-            'medical_report' => $row['medical_report'],
-            'military_notebook' => $row['military_notebook'],
+            'id_photo' => $row['id_photo'] ?? 0,
+            'residence_document' => $row['residence_document'] ?? 0,
+            'no_conviction' => $row['no_conviction'] ?? 0,
+            'individual_civil_record' => $row['individual_civil_record'] ?? 0,
+            'personal_photos' => $row['personal_photos'] ?? 0,
+            'certificate_copy' => $row['certificate_copy'] ?? 0,
+            'medical_report' => $row['medical_report'] ?? 0,
+            'military_notebook' => $row['military_notebook'] ?? 0,
         ]);
     }
 

@@ -42,7 +42,9 @@ class FollowUpController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        Excel::import(new FollowUpImport, $request->file);
+        $file = $request->file('file')->store('FollowUp');
+
+        Excel::import(new FollowUpImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
 }

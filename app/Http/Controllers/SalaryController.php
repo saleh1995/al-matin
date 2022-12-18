@@ -54,7 +54,9 @@ class SalaryController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        Excel::import(new SalariesImport, $request->file);
+        $file = $request->file('file')->store('Salary');
+
+        Excel::import(new SalariesImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
 

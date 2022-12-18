@@ -42,7 +42,9 @@ class EvaluationController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        Excel::import(new EvaluationImport, $request->file);
+        $file = $request->file('file')->store('Evaluation');
+
+        Excel::import(new EvaluationImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
 }

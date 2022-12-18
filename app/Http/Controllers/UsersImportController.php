@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers;
 
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
-use App\Http\Controllers\api\BaseController as BaseController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\api\BaseController as BaseController;
 
 class UsersImportController extends BaseController
 {
@@ -27,7 +29,19 @@ class UsersImportController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        Excel::import(new UsersImport, $request->file);
+        $file = $request->file('file')->store('Employee');
+
+        Excel::import(new UsersImport, $file);
         return $this->sendResponse('', 'Excel was successfully uploaded');
+    }
+
+    public function show(Request $request)
+    {
+        // return response()->json(['user' => $request->user()]);
+        // dd($request->all());
+
+        $user = Auth::user();
+        $user['manager_name'] = collect(DB::select('select name from users where job_id = ?', [$user->manager_id]))->first()->name;
+        return $this->sendResponse($user, 'User Data');
     }
 }
