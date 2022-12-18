@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\api\BaseController;
 use App\Salary;
 use Illuminate\Http\Request;
 use App\Imports\SalariesImport;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 
-class SalaryController extends Controller
+class SalaryController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -55,7 +56,7 @@ class SalaryController extends Controller
         }
 
         $file = $request->file('file')->store('Salary');
-
+        Salary::truncate();
         Excel::import(new SalariesImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
@@ -70,7 +71,24 @@ class SalaryController extends Controller
     {
         $user_id = Auth::user()->job_id;
         $salary = Salary::all()->where('job_id', '=', $user_id)->first();
+
+        // if ($salary == null) {
+        //     $zero = Salary::all()->where('job_id', '=', $user_id)->first();
+        //     if ($zero == null) {
+        //         $salary = new Salary();
+        //         $salary->job_id = $user_id;
+        //         $salary->save();
+        //     }
+        // }
         return view('salary', ['salary' => $salary]);
+    }
+
+
+    public function showApi(Salary $salary)
+    {
+        $user_id = Auth::user()->job_id;
+        $salary = Salary::all()->where('job_id', '=', $user_id)->first();
+        return $this->sendResponse($salary, 'Salary Data');
     }
 
     /**

@@ -36,9 +36,7 @@ Route::middleware('auth')->group(function () {
 
   Route::get('salary', 'SalaryController@show')->name('salary');
 
-  Route::get('evaluation', function () {
-    return view('evaluation');
-  })->name('evaluation');
+  Route::get('evaluation', 'EvaluationController@show')->name('evaluation');
 
   Route::get('vacation_request', function () {
     return view('vacation_request');

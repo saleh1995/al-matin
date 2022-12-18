@@ -10,38 +10,43 @@
         <div class="card-body">
           <table class="table table-condensed table-hover text-right">
             <tbody>
+              @if ($evaluation == null)
+              <tr>{{ __('translate.no_evaluation_info') }}</tr>
+              @else
               <tr>
                 <th scope="row">{{ __('translate.emp_id') }} : </th>
-                <td>1</td>
+                <td>{{ $evaluation->job_id }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.evaluation_score') }} : </th>
-                <td>2</td>
+                <td>{{ $evaluation->latest_evaluation }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.evaluation_manager_score') }} : </th>
-                <td>3</td>
+                <td>{{ $evaluation->manager_evaluation }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.evaluation_hr_score') }} : </th>
-                <td>4</td>
+                <td>{{ $evaluation->hr_evaluation }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.pros') }} : </th>
-                <td>1</td>
+                <td>{{ $evaluation->pros }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.cons') }} : </th>
-                <td>2</td>
+                <td>{{ $evaluation->cons }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.manager_recommendations') }} : </th>
-                <td>3</td>
+                <td>{{ $evaluation->manager_recommendations }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.hr_recommendations') }} : </th>
-                <td>4</td>
+                <td>{{ $evaluation->hr_recommendations }}</td>
               </tr>
+              @endif
+              
             </tbody>
           </table>
         </div>
@@ -53,22 +58,26 @@
         <div class="card-body">
             <table class="table table-condensed table-hover">
                 <tbody>
+                  @if ($insurance == null)
+                  <tr>{{ __('translate.no_insurance_info') }}</tr>
+                  @else
                   <tr>
                     <th scope="row">{{ __('translate.social_insurance_registration') }} : </th>
-                    <td>1</td>
+                    <td>{{ $insurance->social_insurance }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ __('translate.social_insurance_salary') }} : </th>
-                    <td>2</td>
+                    <td>{{ $insurance->insurance_salary }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ __('translate.social_insurance_registration_date') }} : </th>
-                    <td>3</td>
+                    <td>{{ $insurance->date_registration }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">{{ __('translate.remaining_advance_amount') }} : </th>
-                    <td>3</td>
+                    <th scope="row">{{ __('translate.social_insurance_number') }} : </th>
+                    <td>{{ $insurance->social_insurance_number }}</td>
                   </tr>
+                  @endif
                 </tbody>
             </table>
         </div>
@@ -80,18 +89,22 @@
         <div class="card-body">
             <table class="table table-condensed table-hover">
                 <tbody>
+                  @if ($penalty == null)
+                  <tr>{{ __('translate.no_penalty_info') }}</tr>
+                  @else
                   <tr>
                     <th scope="row">{{ __('translate.punishment_cause') }} : </th>
-                    <td>1</td>
+                    <td>{{ $penalty->penalties }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ __('translate.punishment_ammount') }} : </th>
-                    <td>2</td>
+                    <td>{{ $penalty->final_ammount }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ __('translate.punishment_date') }} : </th>
-                    <td>3</td>
+                    <td>{{ $penalty->penalties_date }}</td>
                   </tr>
+                  @endif
                 </tbody>
             </table>
         </div>
@@ -103,34 +116,42 @@
         <div class="card-body">
           <table class="table table-condensed table-hover">
             <tbody>
+              @if ($followUp == null)
+              <tr>{{ __('translate.no_followUp_info') }}</tr>
+              @else
               <tr>
                 <th scope="row">{{ __('translate.papers_id_photo') }} : </th>
-                <td>1</td>
+                <td>{{ $followUp->id_photo }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_residence_document') }} : </th>
-                <td>2</td>
+                <td>{{ $followUp->residence_document }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_no_conviction') }} : </th>
-                <td>3</td>
+                <td>{{ $followUp->no_conviction }}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{ __('translate.papers_individual_civil_record') }} : </th>
+                <td>{{ $followUp->individual_civil_record }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_personal_photos') }} : </th>
-                <td>4</td>
+                <td>{{ $followUp->personal_photos }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_certificate_copy') }} : </th>
-                <td>1</td>
+                <td>{{ $followUp->certificate_copy }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_medical_report') }} : </th>
-                <td>2</td>
+                <td>{{ $followUp->medical_report }}</td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_military_notebook') }} : </th>
-                <td>3</td>
+                <td>{{ $followUp->military_notebook }}</td>
               </tr>
+              @endif
             </tbody>
           </table>
         </div>

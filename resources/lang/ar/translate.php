@@ -87,5 +87,11 @@ return [
   'papers_military_notebook' => 'صورة عن دفتر العلم',
   'insurance_info' => 'معلومات التأمينات',
   'syrian_pounds' => 'ل.س',
-  'individual_civil_record' => 'اخراج قيد فردي',
+  'papers_individual_civil_record' => 'اخراج قيد فردي',
+  'social_insurance_number' => 'الرقم التأميني',
+  'no_evaluation_info' => 'لا يوجد لديك تقييم الرجاء مراجعة رئيس قسمك و الموارد البشرية',
+  'no_insurance_info' => 'لا يوجد لديك معلومات تقييم الرجاء مراجعة الموارد البشرية',
+  'no_penalty_info' => 'لا يوجد عليك عقوبات',
+  'no_followUp_info' => 'الرجاء مراجعة الموارد البشرية',
+  'no_salary_info' => 'لا يوجد لديك معلومات الراتب الرجاء مراجعة الموارد البشرية'
 ];

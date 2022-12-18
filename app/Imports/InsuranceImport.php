@@ -26,7 +26,7 @@ class InsuranceImport implements ToModel, WithHeadingRow
             'job_id' => $row['job_id'],
             'social_insurance' => $row['social_insurance'] == 'تامينات اجتماعية' ? 1 : 0,
             'insurance_salary' => $row['insurance_salary'] != NUll ? $row['insurance_salary'] : 0,
-            'date_registration' => Date::excelToDateTimeObject($row['date_registration']),
+            'date_registration' => $row['date_registration'] != NULL ? Date::excelToDateTimeObject($row['date_registration']) : null,
             'social_insurance_number' => $row['social_insurance_number'] != NUll ? $row['social_insurance_number'] : 0,
             // 'remaining_advance' => $row['remaining_advance'],
         ]);

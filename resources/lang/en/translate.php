@@ -87,5 +87,11 @@ return [
   'papers_military_notebook' => 'Military Notebook',
   'insurance_info' => 'Insurance Information',
   'syrian_pounds' => 'S.P',
-  'individual_civil_record' => 'Individual Civil Record',
+  'papers_individual_civil_record' => 'Individual Civil Record',
+  'social_insurance_number' => 'Social Insurance Number',
+  'no_evaluation_info' => 'You do not have an evaluation, please refer to your department head and human resources',
+  'no_insurance_info' => 'You have no evaluation information, please refer Human Resources',
+  'no_penalty_info' => 'You have no penalties',
+  'no_followUp_info' => 'Please refer Human Resources',
+  'no_salary_info' => 'You do not have salary information, please refer Human Resources'
 ];

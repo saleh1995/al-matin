@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\api\BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class HomeController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -26,5 +28,12 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         return view('home', ['user' => $user]);
+    }
+
+    public function api()
+    {
+        $user = Auth::user();
+        $user['manager_name'] = collect(DB::select('select name from users where job_id = ?', [$user->manager_id]))->first()->name;
+        return $this->sendResponse($user, 'User Data');
     }
 }
