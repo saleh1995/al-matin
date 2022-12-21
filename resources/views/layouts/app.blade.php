@@ -23,11 +23,24 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     @if (app()->getlocale() == 'ar')    
         <link rel="stylesheet" href="{{ asset('css/rtl.css') }}">
     @endif
 
+    <style>
+        html {
+            min-height: 100%; /* Look, it's not fixed anymore! */
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            flex-grow: 1;
+        }
+    </style>
     
 </head>
 <body>
@@ -36,7 +49,7 @@
             @include('layouts.navbar')
         @endif
 
-        <main class="py-4">
+        <main class="py-4 min-vh-100">
             @yield('content')
         </main>
 
@@ -48,3 +61,9 @@
     </div>
 </body>
 </html>
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let footerheight = document.querySelector("footer").clientHeight;
+      document.querySelector("body").style.paddingBottom = footerheight;
+  });
+  </script> --}}

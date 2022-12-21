@@ -96,4 +96,8 @@ return [
   'no_followUp_info' => 'Please refer Human Resources',
   'no_salary_info' => 'You do not have salary information, please refer Human Resources',
   'no_employees' => 'You do not have employees in your department',
+  'find_employee' => 'Find the employee using job id, eg:1234',
+  'emp_options' => 'Options',
+  'edit' => 'Edit',
+  'delete' => 'Delete',
 ];

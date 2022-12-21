@@ -1,4 +1,4 @@
-<section class="bg-dark text-white text-center text-lg-start">
+<section class="bg-dark text-white text-center text-lg-start" id="footer">
   <!-- Copyright -->
   <div class="text-center pt-2">
     {{ __('translate.credits') }}

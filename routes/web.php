@@ -38,6 +38,14 @@ Route::middleware('auth')->group(function () {
   Route::get('vacation_request', function () {
     return view('vacation_request');
   })->name('vacation_request');
+
+  Route::get('management', function () {
+    return view('management');
+  })->name('management');
+
+  Route::get('management', function () {
+    return view('management');
+  })->name('management');
 });
 
 // Route::post('/upload-employees', 'ImportController@employee')->name('import.employee');

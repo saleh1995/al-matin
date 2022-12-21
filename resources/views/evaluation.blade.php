@@ -121,35 +121,51 @@
               @else
               <tr>
                 <th scope="row">{{ __('translate.papers_id_photo') }} : </th>
-                <td>{{ $followUp->id_photo }}</td>
+                <td>
+                  <i class="fas {{ $followUp->id_photo == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_residence_document') }} : </th>
-                <td>{{ $followUp->residence_document }}</td>
+                <td>
+                  <i class="fas {{ $followUp->residence_document == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_no_conviction') }} : </th>
-                <td>{{ $followUp->no_conviction }}</td>
+                <td>
+                  <i class="fas {{ $followUp->no_conviction == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_individual_civil_record') }} : </th>
-                <td>{{ $followUp->individual_civil_record }}</td>
+                <td>
+                  <i class="fas {{ $followUp->individual_civil_record == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_personal_photos') }} : </th>
-                <td>{{ $followUp->personal_photos }}</td>
+                <td>
+                  <i class="fas {{ $followUp->personal_photos == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_certificate_copy') }} : </th>
-                <td>{{ $followUp->certificate_copy }}</td>
+                <td>
+                  <i class="fas {{ $followUp->certificate_copy == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_medical_report') }} : </th>
-                <td>{{ $followUp->medical_report }}</td>
+                <td>
+                  <i class="fas {{ $followUp->medical_report == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               <tr>
                 <th scope="row">{{ __('translate.papers_military_notebook') }} : </th>
-                <td>{{ $followUp->military_notebook }}</td>
+                <td>
+                  <i class="fas {{ $followUp->military_notebook == 1 ? 'fa-check text-success': 'fa-times text-danger' }} "></i>
+                </td>
               </tr>
               @endif
             </tbody>
