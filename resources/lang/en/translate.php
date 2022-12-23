@@ -100,4 +100,9 @@ return [
   'emp_options' => 'Options',
   'edit' => 'Edit',
   'delete' => 'Delete',
+  'emp_manager_id' => 'Manager Job ID',
+  'emp_role' => 'Employee Access Right',
+  'save' => 'Save',
+  'new_password' => 'New password',
+  'confirm_password' => 'Confirm password',
 ];

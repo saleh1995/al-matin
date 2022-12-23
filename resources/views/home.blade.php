@@ -17,34 +17,34 @@
                     {{ __('You are logged in!') }} --}}
 
                     <table class="table table-condensed table-hover">
-                        <tbody>
-                          <tr>
-                            <th scope="row">{{ __('translate.emp_id') }} : </th>
-                            <td>{{ $user->job_id }}</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">{{ __('translate.emp_name') }} : </th>
-                            <td>{{ $user->name }}</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">{{ __('translate.emp_address') }} : </th>
-                            <td>{{ $user->address }}</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">{{ __('translate.emp_place_of_job') }} : </th>
-                            <td>{{ $user->place_of_job }}</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">{{ __('translate.emp_mobile') }} : </th>
-                            <td>{{ $user->phone }}</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">{{ __('translate.emp_manager') }} : </th>
-                            <td>
-                              {{ $user->manager->first()->name ?? "" }}
-                            </td>
-                          </tr>
-                        </tbody>
+                      <tbody>
+                        <tr>
+                          <th scope="row">{{ __('translate.emp_id') }} : </th>
+                          <td>{{ $user->job_id }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">{{ __('translate.emp_name') }} : </th>
+                          <td>{{ $user->name }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">{{ __('translate.emp_address') }} : </th>
+                          <td>{{ $user->address }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">{{ __('translate.emp_place_of_job') }} : </th>
+                          <td>{{ $user->place_of_job }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">{{ __('translate.emp_mobile') }} : </th>
+                          <td>{{ $user->phone }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">{{ __('translate.emp_manager') }} : </th>
+                          <td>
+                            {{ $user->manager->first()->name ?? "" }}
+                          </td>
+                        </tr>
+                      </tbody>
                     </table>
                 </div>
             </div>

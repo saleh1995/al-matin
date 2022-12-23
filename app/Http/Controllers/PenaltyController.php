@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Validator;
 
 class PenaltyController extends EvaluationController
 {
+
+    public function showApi()
+    {
+        $user_id = Auth::user()->job_id;
+        // $evaluation = Evaluation::all()->where('job_id', '=', $user_id)->first();
+        // $followUp = FollowUp::all()->where('job_id', '=', $user_id)->first();
+        // $insurance = Insurance::all()->where('job_id', '=', $user_id)->first();
+        $penalty = Penalty::all()->where('job_id', '=', $user_id)->first();
+        // $collection = collect(['evaluation' => $evaluation, 'followup' => $followUp, 'insuranc' => $insurance, 'penalty' => $penalty]);
+
+        return $this->sendResponse($penalty, 'all data');
+    }
+
+
     public function store(Request $request)
     {
         $validator = Validator::make(

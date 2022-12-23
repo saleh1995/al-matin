@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Salary', 'job_id', 'job_id');
     }
+
+    public function role()
+    {
+        return $this->hasOne('App\Role', 'role', 'role');
+    }
 }

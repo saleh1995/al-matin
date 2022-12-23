@@ -100,4 +100,9 @@ return [
   'emp_options' => 'خيارات',
   'edit' => 'تعديل',
   'delete' => 'حذف',
+  'emp_manager_id' => 'رقم رئيس القسم',
+  'emp_role' => 'صلاحية الموظف',
+  'save' => 'حفظ',
+  'new_password' => 'كلمة المرور الجديدة',
+  'confirm_password' => 'تأكيد كلمة المرور',
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FollowUp;
 use App\User;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\api\BaseController as BaseController;
+use App\Role;
 
 class UserController extends BaseController
 {
@@ -51,5 +53,26 @@ class UserController extends BaseController
     {
         $employees = User::all()->where('manager_id', '=', Auth::user()->job_id);
         return view('employees', compact('employees'));
+    }
+
+    public function showEmployee(Request $request)
+    {
+        $data = $request->validate([
+            'job_id' => 'required|numeric'
+        ]);
+
+        $employee = User::all()->where('job_id', '=', $data['job_id'])->first();
+
+        return view('management', ['employee' => $employee]);
+    }
+
+
+    public function edit($id)
+    {
+        $employeeEdit = User::all()->where('job_id', '=', $id)->first();
+        $employee = $employeeEdit;
+        $roles = Role::all();
+        $followUp = FollowUp::all()->where('job_id', '=', $id)->first();
+        return view('management', compact(['employeeEdit', 'employee', 'roles', 'followUp']));
     }
 }

@@ -33,15 +33,14 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::middleware('auth')->group(function () {
   Route::get('salary', 'SalaryController@show')->name('salary');
   Route::get('evaluation', 'EvaluationController@show')->name('evaluation');
-  Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('department.employees');
+  Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('user.departmentEmployees');
+  Route::post('/management', 'UserController@showEmployee')->name('user.showEmployee');
+  Route::get('/management/editEmployee/{id}', 'UserController@edit')->name('user.edit');
+  Route::get('/management/deleteEmployee/{id}', 'UserController@delete')->name('user.delete');
 
   Route::get('vacation_request', function () {
     return view('vacation_request');
   })->name('vacation_request');
-
-  Route::get('management', function () {
-    return view('management');
-  })->name('management');
 
   Route::get('management', function () {
     return view('management');
