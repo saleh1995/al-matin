@@ -104,5 +104,8 @@ return [
   'emp_role' => 'صلاحية الموظف',
   'save' => 'حفظ',
   'new_password' => 'كلمة المرور الجديدة',
-  'confirm_password' => 'تأكيد كلمة المرور',
+  'password_confirmation' => 'تأكيد كلمة المرور',
+  'not_received' => 'لم يتم التسليم',
+  'received' => 'تم التسليم',
+  'update_success' => 'تم تحديث البيانات',
 ];

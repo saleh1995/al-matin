@@ -29,22 +29,26 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
 Route::middleware('auth')->group(function () {
+  Route::get('/', 'HomeController@index')->name('home');
   Route::get('salary', 'SalaryController@show')->name('salary');
   Route::get('evaluation', 'EvaluationController@show')->name('evaluation');
+
+
   Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('user.departmentEmployees');
-  Route::post('/management', 'UserController@showEmployee')->name('user.showEmployee');
-  Route::get('/management/editEmployee/{id}', 'UserController@edit')->name('user.edit');
-  Route::get('/management/deleteEmployee/{id}', 'UserController@delete')->name('user.delete');
 
   Route::get('vacation_request', function () {
     return view('vacation_request');
   })->name('vacation_request');
 
-  Route::get('management', function () {
-    return view('management');
-  })->name('management');
+  Route::get('management', 'UserController@management')->name('user.management');
+  Route::post('management', 'UserController@showEmployee')->name('user.showEmployee');
+  Route::get('management/editEmployee/{id}', 'UserController@edit')->name('user.edit');
+  Route::post('management/editEmployee', 'UserController@update')->name('user.update');
+  Route::post('management/editEmployee/changePassword', 'UserController@changePassword')->name('user.changePassword');
+  Route::get('management/deleteEmployee/{id}', 'UserController@delete')->name('user.delete');
+
+  Route::post('followup/update', 'FollowUpController@update')->name('followup.update');
 });
 
 // Route::post('/upload-employees', 'ImportController@employee')->name('import.employee');

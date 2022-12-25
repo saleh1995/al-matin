@@ -104,5 +104,8 @@ return [
   'emp_role' => 'Employee Access Right',
   'save' => 'Save',
   'new_password' => 'New password',
-  'confirm_password' => 'Confirm password',
+  'password_confirmation' => 'Confirm password',
+  'not_received' => 'Not Received',
+  'received' => 'Received',
+  'update_success' => 'Data updated successfully',
 ];

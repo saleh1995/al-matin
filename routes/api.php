@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController as APIAuthController;
-use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\HomeController;
@@ -35,9 +35,16 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/insurance', [InsurnaceController::class, 'showApi']);
     Route::get('/penalty', [PenaltyController::class, 'showApi']);
     Route::get('/evaluation', [EvaluationController::class, 'showApi']);
+
+    Route::post('/management', [UserController::class, 'showEmployeeApi']);
+    Route::post('/management/editEmployee', [UserController::class, 'updateِApi']);
+    Route::post('/management/editEmployee/changePassword', [UserController::class, 'changePasswordApi']);
+    Route::post('/management/deleteEmployee', [UserController::class, 'deleteApi']);
+    Route::post('/followup/edit', [FollowUpController::class, 'editApi']);
+    Route::post('/followup/update', [FollowUpController::class, 'updateApi']);
 });
 
-// Route::post('users/import', [UserController::class, 'store']);
+Route::post('users/import', [UserController::class, 'store']);
 // Route::post('salary/import', [SalaryController::class, 'store']);
 // Route::post('evaluation/import', [EvaluationController::class, 'store']);
 // Route::post('followup/import', [FollowUpController::class, 'store']);

@@ -55,6 +55,13 @@ class UserController extends BaseController
         return view('employees', compact('employees'));
     }
 
+
+
+    public function management()
+    {
+        return view('management');
+    }
+
     public function showEmployee(Request $request)
     {
         $data = $request->validate([
@@ -63,7 +70,31 @@ class UserController extends BaseController
 
         $employee = User::all()->where('job_id', '=', $data['job_id'])->first();
 
+        // if (!$employee) {
+        //     return back()->withErrors(['job_id' => 'لا يوجد موظف مع هذا الرقم الوظيفي!']);
+        // }
+
         return view('management', ['employee' => $employee]);
+    }
+
+    public function showEmployeeApi(Request $request)
+    {
+        $data = Validator::make(
+            [
+                'job_id'      => $request->job_id,
+            ],
+            [
+                'job_id' => 'required|numeric'
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+
+        $employee = User::all()->where('job_id', '=', $request->job_id)->first();
+
+        return $this->sendResponse($employee, 'Employee Data');
     }
 
 
@@ -74,5 +105,94 @@ class UserController extends BaseController
         $roles = Role::all();
         $followUp = FollowUp::all()->where('job_id', '=', $id)->first();
         return view('management', compact(['employeeEdit', 'employee', 'roles', 'followUp']));
+    }
+
+
+    public function update(Request $request)
+    {
+        $id = $request->job_id;
+        $employeeEdit = User::all()->where('job_id', '=', $id)->first()->update($request->all());
+
+        session()->flash('success', trans('translate.update_success'));
+
+        return redirect()->back();
+    }
+
+    public function updateِApi(Request $request)
+    {
+        $data = Validator::make(
+            $request->all(),
+            [
+                'job_id' => 'required|numeric',
+                'name' => 'required',
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+
+        $id = $request->job_id;
+        $employeeEdit = User::all()->where('job_id', '=', $id)->first()->update($request->all());
+
+        return $this->sendResponse($employeeEdit, 'Employee Data was updated successfully!');
+    }
+
+
+    public function changePassword(Request $request)
+    {
+        $id = $request->job_id;
+        $request->validate([
+            'password' => 'required|min:5',
+            'password_confirmation' => 'required|same:password'
+        ]);
+        $employeeEdit = User::all()->where('job_id', '=', $id)->first()->update(['password' => bcrypt($request->password)]);
+
+        session()->flash('success', trans('translate.update_success'));
+        return redirect()->back();
+    }
+
+    public function changePasswordApi(Request $request)
+    {
+        $data = Validator::make(
+            $request->all(),
+            [
+                'job_id' => 'required|numeric',
+                'password' => 'required|min:5',
+                'password_confirmation' => 'required|same:password'
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+        $id = $request->job_id;
+
+        $employeeEdit = User::all()->where('job_id', '=', $id)->first()->update(['password' => bcrypt($request->password)]);
+
+        return $this->sendResponse($employeeEdit, 'Employee password was updated successfully!');
+    }
+
+    public function delete(Request $request)
+    {
+        User::where('job_id', $request->id)->delete();
+        session()->flash('success', trans('translate.update_success'));
+        return redirect()->back();
+    }
+
+    public function deleteApi(Request $request)
+    {
+        $data = Validator::make(
+            $request->all(),
+            [
+                'job_id' => 'required|numeric',
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+        $employeeDelete = User::where('job_id', $request->job_id)->delete();
+        return $this->sendResponse($employeeDelete, 'Employee was deleted successfully!');
     }
 }

@@ -49,4 +49,52 @@ class FollowUpController extends EvaluationController
         Excel::import(new FollowUpImport, $file);
         // return $this->sendResponse('', 'Excel was successfully uploaded');
     }
+
+    public function editApi(Request $request)
+    {
+        $data = Validator::make(
+            [
+                'job_id'      => $request->job_id,
+            ],
+            [
+                'job_id' => 'required|numeric'
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+
+        $followUp = FollowUp::all()->where('job_id', '=', $request->job_id)->first();
+
+        return $this->sendResponse($followUp, 'FollowUp Data');
+    }
+
+    public function update(Request $request)
+    {
+        FollowUp::updateOrCreate(['job_id' => $request->job_id], $request->all());
+
+        session()->flash('success', trans('translate.update_success'));
+        return redirect()->back();
+    }
+
+    public function updateApi(Request $request)
+    {
+        $data = Validator::make(
+            [
+                'job_id'      => $request->job_id,
+            ],
+            [
+                'job_id' => 'required|numeric'
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+
+        $followUp = FollowUp::updateOrCreate(['job_id' => $request->job_id], $request->all());
+
+        return $this->sendResponse($followUp, 'FollowUp Data');
+    }
 }

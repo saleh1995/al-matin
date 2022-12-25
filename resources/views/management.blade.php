@@ -7,18 +7,35 @@
       @csrf
       <div class="input-group-block row">
         <div class="form-outline col-11 px-0">
-          <input type="text" name="job_id" class="form-control rounded-0 @error('job_id') is-invalid @enderror" placeholder="الرقم الوظيفي"/>
-          @error('job_id')
-            <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-            </span>
-          @enderror
+          <input type="text" name="job_id" class="form-control rounded-0 @error('job_id') is-invalid @enderror" placeholder="الرقم الوظيفي" value="{{ $employee->job_id ?? '' }}"/>
         </div>
         <button class="btn btn-primary col-1 px-0 rounded-0" type="submit">
           <i class="fas fa-search"></i>
         </button>
       </div>
+      {{-- @error('job_id')
+        <div class="input-group">
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+        </div>
+      @enderror --}}
     </form>
+    @if ( Session::has('errors'))
+      <div class="alert alert-danger col-12 mt-3 text-center">
+        @if (session('errors')->first('job_id') != null)
+        {{ session('errors')->first('job_id') }}
+        @elseif (session('errors')->first('password') != null)
+        {{ session('errors')->first('password')}}
+        @elseif ( session('errors')->first('password_confirmation') != null)
+        {{ session('errors')->first('password_confirmation') }}
+        @endif
+      </div>
+    @elseif (Session::has('success'))
+      <div class="alert alert-success col-12 mt-3 text-center">
+        {{ session('success') }}
+      </div>
+    @endif
   </div>
   <div class="row justify-content-center mt-4">
   @if (!isset($employee))
@@ -55,7 +72,7 @@
     </table>
     @if (isset($employeeEdit))
     <div class="col-12 px-0 mt-4">
-      <ul class="nav nav-tabs nav-fill">
+      <ul class="nav nav-tabs nav-fill bg-white">
         <li class="nav-item">
           <a class="nav-link active" href="#employee-information" data-toggle="tab">{{ __('translate.employee_info') }}</a>
         </li>
@@ -72,44 +89,45 @@
       
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active in" id="employee-information"> 
-          <div class="card mt-4">
+          <div class="card">
             <div class="card-body">
-              <form>
+              <form method="POST" action="{{ route('user.update') }}">
+                @csrf
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="job_id">{{ __('translate.emp_id') }}</label>
-                    <input type="text" class="form-control" id="job_id" disabled value="{{ $employeeEdit->job_id }}">
+                    <input type="text" class="form-control" id="job_id" name="job_id" readonly value="{{ $employeeEdit->job_id }}">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="emp_name">{{ __('translate.emp_name') }}</label>
-                    <input type="text" class="form-control" id="emp_name" value="{{ $employeeEdit->name }}">
+                    <input type="text" class="form-control" id="emp_name" name="name" value="{{ $employeeEdit->name }}">
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="emp_address">{{ __('translate.emp_address') }}</label>
-                    <input type="text" class="form-control" id="emp_address" value="{{ $employeeEdit->address }}">
+                    <input type="text" class="form-control" id="emp_address" name="address" value="{{ $employeeEdit->address }}">
                   </div>
                   
                   <div class="form-group col-md-4">
                     <label for="emp_place_of_job">{{ __('translate.emp_place_of_job') }}</label>
-                    <input type="text" class="form-control" id="emp_place_of_job" value="{{ $employeeEdit->place_of_job }}">
+                    <input type="text" class="form-control" id="emp_place_of_job" name="place_of_job" value="{{ $employeeEdit->place_of_job }}">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="emp_mobile">{{ __('translate.emp_mobile') }}</label>
-                    <input type="text" class="form-control" id="emp_mobile" name="emp_mobile" value="{{ $employeeEdit->phone }}">
+                    <input type="text" class="form-control" id="emp_mobile" name="phone" value="{{ $employeeEdit->phone }}">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="emp_manager_id">{{ __('translate.emp_manager_id') }}</label>
-                    <input type="text" class="form-control" id="emp_manager_id" name="emp_manager_id" value="{{ $employeeEdit->manager_id }}">
+                    <input type="text" class="form-control" id="emp_manager_id" name="manager_id" value="{{ $employeeEdit->manager_id }}">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="emp_internal_phone">{{ __('translate.emp_internal_phone') }}</label>
-                    <input type="text" class="form-control" id="emp_internal_phone" name="emp_internal_phone" value="{{ $employeeEdit->internal_phone }}">
+                    <input type="text" class="form-control" id="emp_internal_phone" name="internal_phone" value="{{ $employeeEdit->internal_phone }}">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="emp_role">{{ __('translate.emp_role') }}</label>
-                    <select id="emp_role" name="emp_role" class="form-control">
+                    <select id="emp_role" name="role" class="form-control">
                       @foreach ($roles as $role)
                         <option {{ $role->role == $employeeEdit->role ? 'selected' : '' }} value="{{ $role->role }}" class="h5">{{ $role->name }}</option>
                       @endforeach
@@ -130,17 +148,22 @@
           </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="change-password"> 
-          <div class="card mt-4">
+          <div class="card">
             <div class="card-body">
-              <form>
+              <form method="POST" action="{{ route('user.changePassword') }}">
+                @csrf
                 <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="job_id">{{ __('translate.emp_id') }}</label>
+                    <input type="text" class="form-control" id="job_id" name="job_id" readonly value="{{ $employeeEdit->job_id }}">
+                  </div>
                   <div class="form-group col-12">
                     <label for="password">{{ __('translate.new_password') }}</label>
                     <input type="text" class="form-control" id="password" name="password">
                   </div>
                   <div class="form-group col-12">
-                    <label for="confirm_password">{{ __('translate.confirm_password') }}</label>
-                    <input type="text" class="form-control" id="confirm_password" name="confirm_password">
+                    <label for="password_confirmation">{{ __('translate.password_confirmation') }}</label>
+                    <input type="text" class="form-control" id="password_confirmation" name="password_confirmation">
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary">{{ __('translate.save') }}</button>
@@ -149,16 +172,21 @@
           </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="missing-papers"> 
-        @php
-          $papers = ['لم يتم التسليم', 'تم التسليم'];
-        @endphp
-          <div class="card mt-4">
+          @php
+            $papers = [__('translate.not_received'), __('translate.received')];
+          @endphp
+          <div class="card">
             <div class="card-body">
-              <form>
+              <form method="POST" action="{{ route('followup.update') }}">
+                @csrf
                 <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="job_id">{{ __('translate.emp_id') }}</label>
+                    <input type="text" class="form-control" id="job_id" name="job_id" readonly value="{{ $employeeEdit->job_id }}">
+                  </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_id_photo">{{ __('translate.papers_id_photo') }}</label>
-                    <select id="papers_id_photo" name="papers_id_photo" class="form-control">
+                    <select id="papers_id_photo" name="id_photo" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->id_photo : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -166,7 +194,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_residence_document">{{ __('translate.papers_residence_document') }}</label>
-                    <select id="papers_residence_document" name="papers_residence_document" class="form-control">
+                    <select id="papers_residence_document" name="residence_document" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->residence_document : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -174,7 +202,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_no_conviction">{{ __('translate.papers_no_conviction') }}</label>
-                    <select id="papers_no_conviction" name="papers_no_conviction" class="form-control">
+                    <select id="papers_no_conviction" name="no_conviction" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->no_conviction : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -182,7 +210,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_individual_civil_record">{{ __('translate.papers_individual_civil_record') }}</label>
-                    <select id="papers_individual_civil_record" name="papers_individual_civil_record" class="form-control">
+                    <select id="papers_individual_civil_record" name="individual_civil_record" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->individual_civil_record : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -190,7 +218,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_personal_photos">{{ __('translate.papers_personal_photos') }}</label>
-                    <select id="papers_personal_photos" name="papers_personal_photos" class="form-control">
+                    <select id="papers_personal_photos" name="personal_photos" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->personal_photos : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -198,7 +226,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_certificate_copy">{{ __('translate.papers_certificate_copy') }}</label>
-                    <select id="papers_certificate_copy" name="papers_certificate_copy" class="form-control">
+                    <select id="papers_certificate_copy" name="certificate_copy" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->certificate_copy : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -206,7 +234,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_medical_report">{{ __('translate.papers_medical_report') }}</label>
-                    <select id="papers_medical_report" name="papers_medical_report" class="form-control">
+                    <select id="papers_medical_report" name="medical_report" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->medical_report : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
@@ -214,7 +242,7 @@
                   </div>
                   <div class="form-group col-lg-3 col-md-4">
                     <label for="papers_military_notebook">{{ __('translate.papers_military_notebook') }}</label>
-                    <select id="papers_military_notebook" name="papers_military_notebook" class="form-control">
+                    <select id="papers_military_notebook" name="military_notebook" class="form-control">
                       @foreach ($papers as $index => $paper)
                         <option {{ (isset($followUp) ? $index == $followUp->military_notebook : false) ? 'selected' : '' }} value="{{ $index }}" class="h5">{{ $paper }}</option>
                       @endforeach
