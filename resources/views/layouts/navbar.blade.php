@@ -23,7 +23,7 @@
             </li>
           @endif --}}
         @else
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown {{ (request()->is('/*')) ? 'active' : '' }}">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ Auth::user()->name }}
             </a>
@@ -35,9 +35,7 @@
               <a class="dropdown-item" href="{{ route('home') }}">
                 {{ __('translate.change_password') }}
                 </a>
-              <a class="dropdown-item" href="{{ route('logout') }}"
-                  onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+              <a class="dropdown-item" href="{{ url('/') }}">
                 {{ __('translate.download_android') }}  
               </a>
               <a class="dropdown-item" href="{{ route('logout') }}"
@@ -51,17 +49,17 @@
               </form>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {{ (request()->is('salary*')) ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('salary') }}">{{ __('translate.salary') }}</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {{ (request()->is('evaluation*')) ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('evaluation') }}">{{ __('translate.evaluation') }}</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('vacation_request') }}">{{ __('translate.vacation') }}</a>
+          <li class="nav-item {{ (request()->is('vacation*')) ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('vacation') }}">{{ __('translate.vacation') }}</a>
           </li>
           
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown {{ (request()->is('departmentEmployees*')) ? 'active' : '' }}">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ __('translate.department') }}
             </a>
@@ -70,7 +68,7 @@
               <a class="dropdown-item" href="{{ route('user.departmentEmployees') }}">
                 {{ __('translate.employees') }} 
               </a>
-              <a class="dropdown-item" href="{{ route('home') }}">
+              <a class="dropdown-item" href="{{ route('vacations') }}">
                 {{ __('translate.vacation_requests') }}
               </a>
             </div>
@@ -88,7 +86,7 @@
           </li> --}}
 
 
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown {{ (request()->is('management*')) ? 'active' : '' }}">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ __('translate.management') }}
             </a>

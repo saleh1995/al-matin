@@ -36,10 +36,14 @@ Route::middleware('auth')->group(function () {
 
 
   Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('user.departmentEmployees');
+  Route::get('departmentEmployees/vacations', 'VacationController@showAll')->name('vacations');
+  Route::get('departmentEmployees/vacations/accept/{id}', 'VacationController@accept')->name('vacations.accept');
+  Route::get('departmentEmployees/vacations/deny/{id}', 'VacationController@deny')->name('vacations.deny');
 
-  Route::get('vacation_request', function () {
-    return view('vacation_request');
-  })->name('vacation_request');
+  Route::get('vacation', 'VacationController@show')->name('vacation');
+  Route::post('vacation', 'VacationController@makeRequest')->name('vacation.makeRequest');
+  Route::get('vacation/deleteRequest/{id}', 'VacationController@deleteRequest')->name('vacation.deleteRequest');
+
 
   Route::get('management', 'UserController@management')->name('user.management');
   Route::post('management', 'UserController@showEmployee')->name('user.showEmployee');

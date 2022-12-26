@@ -179,7 +179,7 @@
         <div class="card-body">
           <div class="row text-center">
             <div class="col-lg-4">
-              <a class="btn btn-primary btn-block mb-1 mb-lg-0">{{ __('translate.back') }}</a>
+              <a class="btn btn-primary btn-block mb-1 mb-lg-0" href="{{ url('/') }}">{{ __('translate.back') }}</a>
             </div>
           </div>
         </div>
