@@ -123,9 +123,11 @@
                   <div class="col-lg-3">
                     <a class="btn btn-primary btn-block mb-1 mb-lg-0" href="{{ route('vacation') }}">{{ __('translate.vacation') }}</a>
                   </div>
-                  <div class="col-lg-3">
-                    <a class="btn btn-primary btn-block mb-1 mb-lg-0" href="{{ route('user.departmentEmployees') }}">{{ __('translate.employees') }}</a>
-                  </div>
+                  @if (Auth::user()->role >= 10 && Auth::user()->role != 20)
+                    <div class="col-lg-3">
+                      <a class="btn btn-primary btn-block mb-1 mb-lg-0" href="{{ route('user.departmentEmployees') }}">{{ __('translate.employees') }}</a>
+                    </div>
+                  @endif
                 </div>
               </div>
           </div>

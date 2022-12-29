@@ -23,7 +23,7 @@
             </li>
           @endif --}}
         @else
-          <li class="nav-item dropdown {{ (request()->is('/*')) ? 'active' : '' }}">
+          <li class="nav-item dropdown {{ (request()->is('/*') OR request()->is('resetpassword*')) ? 'active' : '' }}">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ Auth::user()->name }}
             </a>
@@ -32,7 +32,7 @@
               <a class="dropdown-item" href="{{ route('home') }}">
                 {{ __('translate.home_page') }}
               </a>
-              <a class="dropdown-item" href="{{ route('home') }}">
+              <a class="dropdown-item" href="{{ route('home.resetpassword') }}">
                 {{ __('translate.change_password') }}
                 </a>
               <a class="dropdown-item" href="{{ url('/') }}">
@@ -49,30 +49,33 @@
               </form>
             </div>
           </li>
-          <li class="nav-item {{ (request()->is('salary*')) ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('salary') }}">{{ __('translate.salary') }}</a>
-          </li>
-          <li class="nav-item {{ (request()->is('evaluation*')) ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('evaluation') }}">{{ __('translate.evaluation') }}</a>
-          </li>
-          <li class="nav-item {{ (request()->is('vacation*')) ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('vacation') }}">{{ __('translate.vacation') }}</a>
-          </li>
-          
-          <li class="nav-item dropdown {{ (request()->is('departmentEmployees*')) ? 'active' : '' }}">
-            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-              {{ __('translate.department') }}
-            </a>
+          @if (Auth::user()->role !=20)
+            <li class="nav-item {{ (request()->is('salary*')) ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('salary') }}">{{ __('translate.salary') }}</a>
+            </li>
+            <li class="nav-item {{ (request()->is('evaluation*')) ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('evaluation') }}">{{ __('translate.evaluation') }}</a>
+            </li>
+            <li class="nav-item {{ (request()->is('vacation*')) ? 'active' : '' }}">
+              <a class="nav-link" href="{{ route('vacation') }}">{{ __('translate.vacation') }}</a>
+            </li>
+          @endif
+          @if (Auth::user()->role >= 10 && Auth::user()->role !=20)
+            <li class="nav-item dropdown {{ (request()->is('departmentEmployees*')) ? 'active' : '' }}">
+              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ __('translate.department') }}
+              </a>
 
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('user.departmentEmployees') }}">
-                {{ __('translate.employees') }} 
-              </a>
-              <a class="dropdown-item" href="{{ route('vacations') }}">
-                {{ __('translate.vacation_requests') }}
-              </a>
-            </div>
-          </li>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('user.departmentEmployees') }}">
+                  {{ __('translate.employees') }} 
+                </a>
+                <a class="dropdown-item" href="{{ route('vacations') }}">
+                  {{ __('translate.vacation_requests') }}
+                </a>
+              </div>
+            </li>
+          @endif
 
 
           {{-- <li class="nav-item">
@@ -85,24 +88,32 @@
               <a class="nav-link" href="{{ route('login') }}">{{ __('translate.uploads') }}</a>
           </li> --}}
 
+          @if (Auth::user()->role >= 1 && Auth::user()->role != 10)
 
-          <li class="nav-item dropdown {{ (request()->is('management*')) ? 'active' : '' }}">
-            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-              {{ __('translate.management') }}
-            </a>
+            <li class="nav-item dropdown {{ (request()->is('management*')) ? 'active' : '' }}">
+              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ __('translate.management') }}
+              </a>
 
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('user.management') }}">
-                {{ __('translate.employee_management') }} 
-              </a>
-              <a class="dropdown-item" href="{{ route('user.statistics') }}">
-                {{ __('translate.statistics') }}
-              </a>
-              <a class="dropdown-item" href="{{ route('upload') }}">
-                {{ __('translate.uploads') }}
-              </a>
-            </div>
-          </li>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                @if (Auth::user()->role == 1 || Auth::user()->role == 4 || (Auth::user()->role >= 10 && Auth::user()->role !=20))
+                  <a class="dropdown-item" href="{{ route('user.management') }}">
+                    {{ __('translate.employee_management') }} 
+                  </a>
+                @endif
+                @if (Auth::user()->role == 12 || Auth::user()->role == 99 || Auth::user()->role == 20)
+                  <a class="dropdown-item" href="{{ route('user.statistics') }}">
+                    {{ __('translate.statistics') }}
+                  </a>
+                @endif
+                @if (Auth::user()->role !=20 && Auth::user()->role !=11)
+                  <a class="dropdown-item" href="{{ route('upload') }}">
+                    {{ __('translate.uploads') }}
+                  </a>
+                @endif
+              </div>
+            </li>
+          @endif
         @endguest
       </ul>
     </div>

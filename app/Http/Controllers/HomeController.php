@@ -36,6 +36,9 @@ class HomeController extends BaseController
             $vacationRequests = Vacation::all()->where('request_status', '=', 2)->take(3);
         }
         // dd($vacationRequests);
+        if ($user->change_password == 1) {
+            return view('auth.passwords.resetcustom');
+        }
         return view('home', ['user' => $user, 'vacationRequests' => $vacationRequests]);
     }
 
@@ -50,5 +53,23 @@ class HomeController extends BaseController
     public function upload()
     {
         return view('upload');
+    }
+
+    public function resetpassword()
+    {
+        return view('auth.passwords.resetcustom');
+    }
+
+    public function resetPasswordPage(Request $request)
+    {
+        $id = Auth::user()->job_id;
+        $request->validate([
+            'password' => 'required|min:5',
+            'password_confirmation' => 'required|same:password'
+        ]);
+        $employeeEdit = User::all()->where('job_id', '=', $id)->first()->update(['password' => bcrypt($request->password), 'change_password' => 0]);
+
+        session()->flash('success', trans('translate.update_success'));
+        return redirect()->route('home');
     }
 }

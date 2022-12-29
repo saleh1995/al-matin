@@ -31,6 +31,8 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
   Route::get('/', 'HomeController@index')->name('home');
+  Route::get('/resetpassword', 'HomeController@resetpassword')->name('home.resetpassword');
+  Route::post('/resetpassword', 'HomeController@resetPasswordPage')->name('home.resetpassword.post');
   Route::get('salary', 'SalaryController@show')->name('salary');
   Route::post('salary', 'SalaryController@upload')->name('salary.upload');
   Route::get('evaluation', 'EvaluationController@show')->name('evaluation');
@@ -66,5 +68,3 @@ Route::middleware('auth')->group(function () {
 
   Route::post('followup/update', 'FollowUpController@update')->name('followup.update');
 });
-
-// Route::post('/upload-employees', 'ImportController@employee')->name('import.employee');

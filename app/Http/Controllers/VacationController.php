@@ -59,7 +59,7 @@ class VacationController extends BaseController
         $HR_manager = User::where('role', 12)->first();
         // dd($employee->job_id);
 
-        if ($employee->job_id == $HR_manager->job_id) {
+        if (isset($HR_manager) && $employee->job_id == $HR_manager->job_id) {
             $vacationRequests = Vacation::all()->where('request_status', '=', 2);
         } else {
             $vacationRequests = Vacation::all()->where('head_id', '=', $employee->job_id)->where('request_status', '=', 1);
