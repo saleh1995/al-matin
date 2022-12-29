@@ -14,4 +14,9 @@ class Vacation extends Model
     protected $fillable = [
         'job_id', 'head_id', 'start_date', 'end_date', 'reasons', 'request_status'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'job_id', 'job_id');
+    }
 }

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 
-class InsurnaceController extends EvaluationController
+class InsuranceController extends EvaluationController
 {
     public function showApi()
     {
@@ -46,7 +46,20 @@ class InsurnaceController extends EvaluationController
         $file = $request->file('file')->store('Insurance');
         Insurance::truncate();
 
+        // Insurance::truncate();
         Excel::import(new InsuranceImport, $file);
-        // return $this->sendResponse('', 'Excel was successfully uploaded');
+        return $this->sendResponse('', 'Excel was successfully uploaded');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx'
+        ]);
+
+        $file = $request->file('file')->store('Salary');
+        // Insurance::truncate();
+        Excel::import(new InsuranceImport, $file);
+        return redirect()->route('upload')->with('success', trans('translate.upload_success'))->with('subpage', 'insurance');
     }
 }

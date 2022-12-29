@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Role', 'role', 'role');
     }
+
+    public function vacation()
+    {
+        return $this->hasMany('App\Vacation', 'job_id', 'job_id');
+    }
 }

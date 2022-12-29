@@ -95,10 +95,10 @@
               <a class="dropdown-item" href="{{ route('user.management') }}">
                 {{ __('translate.employee_management') }} 
               </a>
-              <a class="dropdown-item" href="{{ route('home') }}">
+              <a class="dropdown-item" href="{{ route('user.statistics') }}">
                 {{ __('translate.statistics') }}
               </a>
-              <a class="dropdown-item" href="{{ route('home') }}">
+              <a class="dropdown-item" href="{{ route('upload') }}">
                 {{ __('translate.uploads') }}
               </a>
             </div>

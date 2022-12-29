@@ -44,10 +44,22 @@ class FollowUpController extends EvaluationController
         }
 
         $file = $request->file('file')->store('FollowUp');
-        FollowUp::truncate();
+        // FollowUp::truncate();
 
         Excel::import(new FollowUpImport, $file);
-        // return $this->sendResponse('', 'Excel was successfully uploaded');
+        return $this->sendResponse('', 'Excel was successfully uploaded');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx'
+        ]);
+
+        $file = $request->file('file')->store('Salary');
+        // FollowUp::truncate();
+        Excel::import(new FollowUpImport, $file);
+        return redirect()->route('upload')->with('success', trans('translate.upload_success'))->with('subpage', 'followUp');
     }
 
     public function editApi(Request $request)

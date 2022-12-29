@@ -92,9 +92,21 @@ class EvaluationController extends BaseController
         }
 
         $file = $request->file('file')->store('Evaluation');
-        Evaluation::truncate();
+        // Evaluation::truncate();
 
         Excel::import(new EvaluationImport, $file);
-        // return $this->sendResponse('', 'Excel was successfully uploaded');
+        return $this->sendResponse('', 'Excel was successfully uploaded');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx'
+        ]);
+
+        $file = $request->file('file')->store('Salary');
+        // Evaluation::truncate();
+        Excel::import(new EvaluationImport, $file);
+        return redirect()->route('upload')->with('success', trans('translate.upload_success'))->with('subpage', 'evaluation');
     }
 }

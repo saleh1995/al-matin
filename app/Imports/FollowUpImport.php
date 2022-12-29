@@ -20,7 +20,7 @@ class FollowUpImport implements ToModel, WithHeadingRow, SkipsOnError
      */
     public function model(array $row)
     {
-        return new FollowUp([
+        return FollowUp::updateOrCreate([
             'job_id' => $row['job_id'],
             'id_photo' => $row['id_photo'] ?? 0,
             'residence_document' => $row['residence_document'] ?? 0,

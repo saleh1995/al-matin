@@ -49,7 +49,20 @@ class PenaltyController extends EvaluationController
         Penalty::truncate();
 
 
+        // Penalty::truncate();
         Excel::import(new PenaltyImport, $file);
-        // return $this->sendResponse('', 'Excel was successfully uploaded');
+        return $this->sendResponse('', 'Excel was successfully uploaded');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx'
+        ]);
+
+        $file = $request->file('file')->store('Salary');
+        // Penalty::truncate();
+        Excel::import(new PenaltyImport, $file);
+        return redirect()->route('upload')->with('success', trans('translate.upload_success'))->with('subpage', 'penalty');
     }
 }

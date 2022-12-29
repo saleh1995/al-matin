@@ -22,7 +22,7 @@ class InsuranceImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         // dd($row['date_registration']);
-        return new Insurance([
+        return Insurance::updateOrCreate([
             'job_id' => $row['job_id'],
             'social_insurance' => $row['social_insurance'] == 'تامينات اجتماعية' ? 1 : 0,
             'insurance_salary' => $row['insurance_salary'] != NUll ? $row['insurance_salary'] : 0,

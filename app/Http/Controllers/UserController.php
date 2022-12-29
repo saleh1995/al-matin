@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\FollowUp;
+use App\Exports\VacationsExport;
+use App\Role;
 use App\User;
+use App\FollowUp;
+use App\Vacation;
+use Carbon\Carbon;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\api\BaseController as BaseController;
-use App\Role;
 
 class UserController extends BaseController
 {
@@ -36,6 +39,18 @@ class UserController extends BaseController
 
         Excel::import(new UsersImport, $file);
         return $this->sendResponse('', 'Excel was successfully uploaded');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx'
+        ]);
+
+        $file = $request->file('file')->store('Salary');
+        // User::truncate();
+        Excel::import(new UsersImport, $file);
+        return redirect()->route('upload')->with('success', trans('translate.upload_success'))->with('subpage', 'employee');
     }
 
     public function show(Request $request)
@@ -195,4 +210,57 @@ class UserController extends BaseController
         $employeeDelete = User::where('job_id', $request->job_id)->delete();
         return $this->sendResponse($employeeDelete, 'Employee was deleted successfully!');
     }
+
+    public function statisticsData()
+    {
+        $employeeCount = User::all()->count();
+        $headCount = User::all()->where('role', '>', 0)->where('role', '!=', 99)->count();
+        $vacationCount = Vacation::all()->where('request_status', '=', 3)->where('end_date', '>=', Carbon::today()->toDateString())->where('start_date', '<=', Carbon::today()->toDateString())->count();
+        $waitingVacations = Vacation::all()->whereIn('request_status', [1, 2])->where('end_date', '>=', Carbon::today()->toDateString());
+
+        $data = [
+            'employeeCount' => $employeeCount,
+            'headCount' => $headCount,
+            'vacationCount' => $vacationCount,
+            'waitingVacations' => $waitingVacations,
+        ];
+        return $data;
+    }
+
+
+    public function statistics()
+    {
+        $data = $this->statisticsData();
+        $vacations = Vacation::where('request_status', 3)->where(function ($query) {
+            $query->where('start_date', '>=', Carbon::today()->toDateString())
+                ->orWhere('end_date', '>=', Carbon::today()->toDateString());
+        })->where('start_date', '<=', Carbon::today()->toDateString())->get();
+        // dd($vacations);
+        $data['vacations'] = $vacations;
+        return view('statistics', $data);
+    }
+
+    public function statisticsVacation(Request $request)
+    {
+        $data = $this->statisticsData();
+        // $vacations = Vacation::all()->where('request_status', '=', 3)->where('end_date', '<=', $request->end_date)->where('start_date', '>=', $request->start_date);
+        $vacations = Vacation::where('request_status', 3)->where(function ($query) use ($request) {
+            $query->where('start_date', '>=', $request->start_date)
+                ->orWhere('end_date', '>=', $request->start_date);
+        })->where('start_date', '<=', $request->end_date)->get();
+        // dd($vacations);
+        $data['vacations'] = $vacations;
+        $data['request'] = $request;
+        // dd($request->all());
+        if ($request->btndate == 2) {
+            return Excel::download(new VacationsExport($request), 'vacations.xls');
+        }
+        return view('statistics', $data);
+    }
+
+    // public function statisticsVacationExcelExport()
+    // {
+    //     return Excel::download(new VacationsExport, 'vacations.xls');
+    //     return redirect()->back();
+    // }
 }

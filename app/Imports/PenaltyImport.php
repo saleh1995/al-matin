@@ -23,7 +23,7 @@ class PenaltyImport implements ToModel, WithHeadingRow, SkipsOnError
     {
         $x = date("Y-m-d", $row['penalties_date']);
         // dd($row['penalties_date']);
-        return new Penalty([
+        return Penalty::updateOrCreate([
             'job_id' => $row['job_id'],
             'penalties' => $row['penalties'] != NUll ? $row['penalties'] : 0,
             'final_ammount' => $row['final_ammount'] != NUll ? $row['final_ammount'] : 0,

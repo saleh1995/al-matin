@@ -45,4 +45,10 @@ class HomeController extends BaseController
         $user['manager_name'] = collect(DB::select('select name from users where job_id = ?', [$user->manager_id]))->first()->name;
         return $this->sendResponse($user, 'User Data');
     }
+
+
+    public function upload()
+    {
+        return view('upload');
+    }
 }
