@@ -23,7 +23,7 @@ class AddColumnsToUsers extends Migration
             $table->string('place_of_job')->nullable();
             $table->string('phone')->nullable();
             $table->char('internal_phone', 8)->nullable();
-            $table->integer('vacation_status')->nullable();
+            // $table->integer('vacation_status')->nullable();
             $table->integer('role')->default(0);
             $table->tinyInteger('change_password')->default(1);
 
