@@ -70,6 +70,12 @@ class UserController extends BaseController
         return view('employees', compact('employees'));
     }
 
+    public function departmentEmployeesApi()
+    {
+        $employees = User::all()->where('manager_id', '=', Auth::user()->job_id);
+        return $this->sendResponse($employees, 'Employees Data');
+    }
+
 
 
     public function management()

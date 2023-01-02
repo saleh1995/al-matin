@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
   Route::post('management/statistics', 'UserController@statisticsVacation')->name('user.statisticsVacation');
   Route::get('management/statistics/vacations/excel/export', 'UserController@statisticsVacationExcelExport')->name('user.statisticsVacationExcelExport');
 
-  Route::get('management/upload', 'homeController@upload')->name('upload');
+  Route::get('management/upload', 'HomeController@upload')->name('upload');
 
   Route::post('followup/update', 'FollowUpController@update')->name('followup.update');
 });

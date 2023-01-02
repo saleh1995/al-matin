@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\api\BaseController;
 use App\User;
 use App\Vacation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\api\BaseController;
 
 class VacationController extends BaseController
 {
@@ -24,6 +25,13 @@ class VacationController extends BaseController
             return redirect()->route('vacation')->withErrors(['vacation' => trans('translate.vacation_deleted')]);
         }
         return view('vacation', compact('employee', 'vacation'));
+    }
+
+    public function showRequestApi()
+    {
+        $employee = Auth::user();
+        $vacation = Vacation::all()->where('job_id', '=', $employee->job_id)->where('request_status', '<>', 0)->where('end_date', '>=', Carbon::today()->toDateString())->first();
+        return $this->sendResponse($vacation, 'Vacation Status');
     }
 
 
@@ -50,6 +58,39 @@ class VacationController extends BaseController
         // dd($requestVacation);
 
         return redirect()->route('vacation');
+    }
+
+    public function makeRequestApi(Request $request)
+    {
+        $data = Validator::make(
+            $request->all(),
+            [
+                'job_id' => 'required',
+                // 'head_id' => 'required',
+                'start_date' => 'required|date|after_or_equal:today',
+                'end_date' => 'required|date|after_or_equal:start_date'
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+
+        $employee = User::where('job_id', $request->job_id)->first();
+        $HR_manager = User::where('role', 12)->first();
+        $requestVacation = $request->all();
+        $requestVacation['head_id'] = $employee->manager_id;
+
+        if ($employee->manager_id == 2 || $employee->manager_id == 241 || $employee->manager_id == $HR_manager->job_id) {
+            $requestVacation['request_status'] = 2;
+        } else {
+            $requestVacation['request_status'] = 1;
+        }
+        Vacation::create($requestVacation);
+
+        // dd($requestVacation);
+
+        return $this->sendResponse($requestVacation, 'Vacation request was created successfully');
     }
 
 

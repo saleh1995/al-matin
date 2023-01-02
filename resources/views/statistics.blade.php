@@ -105,7 +105,7 @@
                 <td style="width: 15%;">{{ __('translate.start_date') }}</td>
                 <td style="width: 15%;">{{ __('translate.end_date') }}</td>
                 <td style="width: 10%;">{{ __('translate.emp_mobile') }}</td>
-                <td>{{ __('translate.reasons') }}</td>
+                {{-- <td>{{ __('translate.reasons') }}</td> --}}
             </tr>
           </thead>
           <tbody class="font-weight-normal">
@@ -116,7 +116,7 @@
                 <td>{{ $waitingVacation->start_date }}</td>
                 <td>{{ $waitingVacation->end_date }}</td>
                 <td>{{ $waitingVacation->user->phone }}</td>
-                <td>{{ $waitingVacation->reasons }}</td>
+                {{-- <td>{{ $waitingVacation->reasons }}</td> --}}
               </tr>
             @endforeach
           </tbody>

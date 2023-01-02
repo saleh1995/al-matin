@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\VacationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/insurance', [InsuranceController::class, 'showApi']);
     Route::get('/penalty', [PenaltyController::class, 'showApi']);
     Route::get('/evaluation', [EvaluationController::class, 'showApi']);
+    Route::get('/departmentEmployees', [UserController::class, 'departmentEmployeesApi']);
 
     Route::post('/management', [UserController::class, 'showEmployeeApi']);
     Route::post('/management/editEmployee', [UserController::class, 'updateِApi']);
@@ -42,6 +44,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/management/deleteEmployee', [UserController::class, 'deleteApi']);
     Route::post('/followup/edit', [FollowUpController::class, 'editApi']);
     Route::post('/followup/update', [FollowUpController::class, 'updateApi']);
+
+    Route::get('/requestVacation', [VacationController::class, 'showRequestApi']);
+    Route::post('/requestVacation', [VacationController::class, 'makeRequestApi']);
 });
 
 Route::post('users/import', [UserController::class, 'store']);

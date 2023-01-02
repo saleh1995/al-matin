@@ -42,6 +42,9 @@
             flex-grow: 1;
         }
     </style>
+
+    <!-- Font awsome -->
+    <script src="https://kit.fontawesome.com/5529fe4254.js" crossorigin="anonymous"></script>
     
 </head>
 <body>
