@@ -4,6 +4,30 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
+          @if ( Session::has('errors'))
+            <div class="alert alert-danger col-12 mt-3 text-center">
+              @if ( session('errors') != null)
+              {{ session('errors') }}3
+              @endif
+            </div>
+          @endif
+          @if (isset($vacation))
+            @if ($vacation->request_status == 1)
+              <div class="alert alert-warning col-12 text-center">
+                {{ __('translate.vacation_message_manager') }} 
+                <a href="{{ route('vacation.deleteRequest', $vacation->id) }}" class="btn btn-outline-warning text-dark bg-light">{{ __('translate.cancel_vacation') }}</a>
+              </div>
+            @elseif ($vacation->request_status == 2)
+              <div class="alert alert-warning col-12 text-center">
+                {{ __('translate.vacation_message_HR') }}
+                <a href="{{ route('vacation.deleteRequest', $vacation->id) }}" class="btn btn-outline-warning text-dark bg-light">{{ __('translate.cancel_vacation') }}</a>
+              </div>
+            @elseif ($vacation->request_status == 3)
+              <div class="alert alert-success col-12 text-center">
+                {{ __('translate.vacation_accepted') }}
+              </div>
+            @endif
+          @endif
           @if (isset($vacationRequests) && !$vacationRequests->isEmpty())
             <div class="card mb-4">
               <div class="card-header bg-warning font-weight-bold" style="font-size: 17px">{{ __('translate.vacation_requests') }}</div>
@@ -25,7 +49,7 @@
                       @foreach ($vacationRequests as $vacationRequest)
                         <tr>
                           <td>{{ $vacationRequest->job_id }}</td>
-                          <td>the Bird</td>
+                          <td>{{ $vacationRequest->user->name }}</td>
                           <td>{{ $vacationRequest->start_date }}</td>
                           <td>{{ $vacationRequest->end_date }}</td>
                           <td>{{ $vacationRequest->reasons }}</td>
@@ -80,27 +104,27 @@
                   <table class="table table-condensed table-hover">
                     <tbody>
                       <tr>
-                        <th scope="row">{{ __('translate.emp_id') }} : </th>
+                        <th scope="row">{{ __('translate.emp_id') }}: </th>
                         <td>{{ $user->job_id }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">{{ __('translate.emp_name') }} : </th>
+                        <th scope="row">{{ __('translate.emp_name') }}: </th>
                         <td>{{ $user->name }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">{{ __('translate.emp_address') }} : </th>
+                        <th scope="row">{{ __('translate.emp_address') }}: </th>
                         <td>{{ $user->address }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">{{ __('translate.emp_place_of_job') }} : </th>
+                        <th scope="row">{{ __('translate.emp_place_of_job') }}: </th>
                         <td>{{ $user->place_of_job }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">{{ __('translate.emp_mobile') }} : </th>
+                        <th scope="row">{{ __('translate.emp_mobile') }}: </th>
                         <td>{{ $user->phone }}</td>
                       </tr>
                       <tr>
-                        <th scope="row">{{ __('translate.emp_manager') }} : </th>
+                        <th scope="row">{{ __('translate.emp_manager') }}: </th>
                         <td>
                           {{ $user->manager->first()->name ?? "" }}
                         </td>

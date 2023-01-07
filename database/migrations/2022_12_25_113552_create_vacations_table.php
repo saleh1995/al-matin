@@ -15,6 +15,7 @@ class CreateVacationsTable extends Migration
     {
         Schema::create('vacations', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('job_id')->nullable()->constrained('users', 'job_id')->onDelete('cascade');
             $table->foreignId('job_id')->nullable()->constrained('users', 'job_id')->nullOnDelete();
             $table->foreignId('head_id')->nullable()->constrained('users', 'job_id')->nullOnDelete();
             $table->date('start_date');

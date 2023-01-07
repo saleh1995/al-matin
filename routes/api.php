@@ -45,11 +45,21 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/followup/edit', [FollowUpController::class, 'editApi']);
     Route::post('/followup/update', [FollowUpController::class, 'updateApi']);
 
+    Route::get('/allRequestVacations', [VacationController::class, 'showAllApi']);
     Route::get('/requestVacation', [VacationController::class, 'showRequestApi']);
     Route::post('/requestVacation', [VacationController::class, 'makeRequestApi']);
+    Route::post('/acceptVacation', [VacationController::class, 'acceptApi']);
+    Route::post('/denyVacation', [VacationController::class, 'denyApi']);
+    Route::post('/deleteVacation', [VacationController::class, 'deleteVacationApi']);
+
+    Route::get('/statistics', [UserController::class, 'statisticsApi']);
+    Route::post('/statistics', [UserController::class, 'statisticsVacationApi']);
+
+
+    // Route::get('management/statistics/vacations/excel/export', 'UserController@statisticsVacationExcelExport');
 });
 
-Route::post('users/import', [UserController::class, 'store']);
+// Route::post('users/import', [UserController::class, 'store']);
 // Route::post('salary/import', [SalaryController::class, 'store']);
 // Route::post('evaluation/import', [EvaluationController::class, 'store']);
 // Route::post('followup/import', [FollowUpController::class, 'store']);

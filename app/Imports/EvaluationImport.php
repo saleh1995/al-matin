@@ -20,17 +20,22 @@ class EvaluationImport implements ToModel, WithHeadingRow, SkipsOnError
      */
     public function model(array $row)
     {
-        return Evaluation::updateOrCreate([
-            'job_id' => $row['job_id'],
-            'latest_evaluation' => $row['latest_evaluation'],
-            'manager_evaluation' => $row['manager_evaluation'],
-            'hr_evaluation' => $row['hr_evaluation'],
-            'pros' => $row['pros'],
-            'cons' => $row['cons'],
-            'manager_recommendations' => $row['manager_recommendations'],
-            'hr_recommendations' => $row['hr_recommendations'],
+        return Evaluation::updateOrCreate(
+            [
+                'job_id' => $row['job_id']
+            ],
+            [
+                'job_id' => $row['job_id'],
+                'latest_evaluation' => $row['latest_evaluation'],
+                'manager_evaluation' => $row['manager_evaluation'],
+                'hr_evaluation' => $row['hr_evaluation'],
+                'pros' => $row['pros'],
+                'cons' => $row['cons'],
+                // 'manager_recommendations' => $row['manager_recommendations'],
+                // 'hr_recommendations' => $row['hr_recommendations'],
 
-        ]);
+            ]
+        );
     }
 
     public function onError(Throwable $e)

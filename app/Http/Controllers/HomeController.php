@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Vacation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\api\BaseController;
-use App\Vacation;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends BaseController
 {
@@ -26,20 +28,44 @@ class HomeController extends BaseController
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
         $user = Auth::user();
         $vacationRequests = null;
+        $error = null;
+
+        // for managers to accept or deny vacation requests
         if ($user->role >= 10 && $user->role < 12) {
             $vacationRequests = Vacation::all()->where('head_id', '=', $user->job_id)->where('request_status', '=', 1)->take(3);
         } elseif ($user->role == 12) {
             $vacationRequests = Vacation::all()->where('request_status', '=', 2)->take(3);
         }
+
+        // to view vacation request status
+        $vacation = Vacation::all()->where('job_id', '=', $user->job_id)->where('request_status', '<>', 0)->where('end_date', '>=', Carbon::today()->toDateString())->first();
+        $deleteVacation = Vacation::all()->where('job_id', '=', $user->job_id)->where('request_status', '<>', 0)->where('end_date', '<', Carbon::today())->first();
+        if (isset($vacation) && $vacation->request_status == 4) {
+            $vacation->delete();
+            $error = trans('translate.vacation_denied_manager');
+        } elseif (isset($vacation) && $vacation->request_status == 5) {
+            $deleteVacation->delete();
+            $error = trans('translate.vacation_denied_HR');
+        } elseif (isset($deleteVacation) && $deleteVacation->request_status != 3 && Carbon::today()->greaterThan($deleteVacation->end_date)) {
+            $deleteVacation->delete();
+            $error = trans('translate.vacation_deleted');
+        }
+
         // dd($vacationRequests);
         if ($user->change_password == 1) {
             return view('auth.passwords.resetcustom');
         }
-        return view('home', ['user' => $user, 'vacationRequests' => $vacationRequests]);
+
+        Session::flash(
+            'errors',
+            $error
+        );
+        return view('home', ['user' => $user, 'vacationRequests' => $vacationRequests, 'vacation' => $vacation]);
     }
 
     public function api()

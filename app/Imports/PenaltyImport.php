@@ -23,12 +23,17 @@ class PenaltyImport implements ToModel, WithHeadingRow, SkipsOnError
     {
         $x = date("Y-m-d", $row['penalties_date']);
         // dd($row['penalties_date']);
-        return Penalty::updateOrCreate([
-            'job_id' => $row['job_id'],
-            'penalties' => $row['penalties'] != NUll ? $row['penalties'] : 0,
-            'final_ammount' => $row['final_ammount'] != NUll ? $row['final_ammount'] : 0,
-            'penalties_date' => (isset($row['penalties_date'])) ? Date::excelToDateTimeObject($row['penalties_date']) : NULL,
-        ]);
+        return Penalty::updateOrCreate(
+            [
+                'job_id' => $row['job_id']
+            ],
+            [
+                'job_id' => $row['job_id'],
+                'penalties' => $row['penalties'] != NUll ? $row['penalties'] : 0,
+                'final_ammount' => $row['final_ammount'] != NUll ? $row['final_ammount'] : 0,
+                'penalties_date' => (isset($row['penalties_date'])) ? Date::excelToDateTimeObject($row['penalties_date']) : NULL,
+            ]
+        );
     }
 
     public function onError(Throwable $e)

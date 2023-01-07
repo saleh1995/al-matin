@@ -24,7 +24,7 @@
                     @foreach ($vacationRequests as $vacationRequest)
                       <tr>
                         <td>{{ $vacationRequest->job_id }}</td>
-                        <td>the Bird</td>
+                        <td>{{ $vacationRequest->user->name }}</td>
                         <td>{{ $vacationRequest->start_date }}</td>
                         <td>{{ $vacationRequest->end_date }}</td>
                         <td>{{ $vacationRequest->reasons }}</td>

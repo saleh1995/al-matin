@@ -72,7 +72,7 @@ class UserController extends BaseController
 
     public function departmentEmployeesApi()
     {
-        $employees = User::all()->where('manager_id', '=', Auth::user()->job_id);
+        $employees = User::where('manager_id', '=', Auth::user()->job_id)->get();
         return $this->sendResponse($employees, 'Employees Data');
     }
 
@@ -246,6 +246,18 @@ class UserController extends BaseController
         return view('statistics', $data);
     }
 
+    public function statisticsApi()
+    {
+        $data = $this->statisticsData();
+        $vacations = Vacation::where('request_status', 3)->where(function ($query) {
+            $query->where('start_date', '>=', Carbon::today()->toDateString())
+                ->orWhere('end_date', '>=', Carbon::today()->toDateString());
+        })->where('start_date', '<=', Carbon::today()->toDateString())->get();
+        // dd($vacations);
+        $data['todayAcceptedVacations'] = $vacations;
+        return $this->sendResponse($data, 'Statistics Count');
+    }
+
     public function statisticsVacation(Request $request)
     {
         $data = $this->statisticsData();
@@ -262,6 +274,35 @@ class UserController extends BaseController
             return Excel::download(new VacationsExport($request), 'vacations.xls');
         }
         return view('statistics', $data);
+    }
+
+    public function statisticsVacationApi(Request $request)
+    {
+        $data = Validator::make(
+            $request->all(),
+            [
+                'start_date' => 'required|date',
+                'end_date' => 'required|date',
+            ]
+        );
+
+        if ($data->fails()) {
+            return $this->sendError('Validation Error.', $data->errors());
+        }
+        // $data = [];
+        // $vacations = Vacation::all()->where('request_status', '=', 3)->where('end_date', '<=', $request->end_date)->where('start_date', '>=', $request->start_date);
+        $vacations = Vacation::where('request_status', 3)->where(function ($query) use ($request) {
+            $query->where('start_date', '>=', $request->start_date)
+                ->orWhere('end_date', '>=', $request->start_date);
+        })->where('start_date', '<=', $request->end_date)->get();
+        // dd($vacations);
+        // $data['vacationsBetweenStartAndEndDate'] = $vacations;
+        // $data['request'] = $request;
+        // // dd($request->all());
+        // if ($request->btndate == 2) {
+        //     return Excel::download(new VacationsExport($request), 'vacations.xls');
+        // }
+        return $this->sendResponse($vacations, "all accepted vacations between $request->start_date and $request->end_date");
     }
 
     // public function statisticsVacationExcelExport()
