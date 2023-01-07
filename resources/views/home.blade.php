@@ -7,7 +7,7 @@
           @if ( Session::has('errors'))
             <div class="alert alert-danger col-12 mt-3 text-center">
               @if ( session('errors') != null)
-              {{ session('errors') }}3
+              {{ session('errors') }}
               @endif
             </div>
           @endif
