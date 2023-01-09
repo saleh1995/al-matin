@@ -6,6 +6,7 @@ use App\User;
 use App\Vacation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\api\BaseController;
@@ -119,9 +120,9 @@ class VacationController extends BaseController
         // dd($employee->job_id);
 
         if (isset($HR_manager) && $employee->job_id == $HR_manager->job_id) {
-            $vacationRequests = Vacation::where('request_status', 2)->get();
+            $vacationRequests = Vacation::where('request_status', 2)->with('user')->get();
         } else {
-            $vacationRequests = Vacation::where('head_id', $employee->job_id)->where('request_status', 1)->get();
+            $vacationRequests = Vacation::where('head_id', $employee->job_id)->where('request_status', 1)->with('user')->get();
         }
 
         return $this->sendResponse($vacationRequests, 'All Vacation Requests');

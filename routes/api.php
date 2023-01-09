@@ -56,12 +56,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/statistics', [UserController::class, 'statisticsVacationApi']);
 
 
+
+
     // Route::get('management/statistics/vacations/excel/export', 'UserController@statisticsVacationExcelExport');
 });
 
-// Route::post('users/import', [UserController::class, 'store']);
-// Route::post('salary/import', [SalaryController::class, 'store']);
-// Route::post('evaluation/import', [EvaluationController::class, 'store']);
-// Route::post('followup/import', [FollowUpController::class, 'store']);
-// Route::post('insurance/import', [InsuranceController::class, 'store']);
-// Route::post('penalty/import', [PenaltyController::class, 'store']);
+Route::post('users/import', [UserController::class, 'store']);
+Route::post('salary/import', [SalaryController::class, 'store']);
+Route::post('evaluation/import', [EvaluationController::class, 'store']);
+Route::post('followup/import', [FollowUpController::class, 'store']);
+Route::post('insurance/import', [InsuranceController::class, 'store']);
+Route::post('penalty/import', [PenaltyController::class, 'store']);

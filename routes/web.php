@@ -31,6 +31,7 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
   Route::get('/', 'HomeController@index')->name('home');
+  Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/resetpassword', 'HomeController@resetpassword')->name('home.resetpassword');
   Route::post('/resetpassword', 'HomeController@resetPasswordPage')->name('home.resetpassword.post');
   Route::get('salary', 'SalaryController@show')->name('salary');

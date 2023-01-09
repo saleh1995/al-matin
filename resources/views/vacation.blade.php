@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-10">
-      @if ( Session::has('errors'))
+      @if (session('errors') != null && Session::has('errors'))
         <div class="alert alert-danger col-12 mt-3 text-center">
           @if (session('errors')->first('job_id') != null)
           {{ session('errors')->first('job_id') }}

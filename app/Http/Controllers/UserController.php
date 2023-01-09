@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Evaluation;
 use App\Exports\VacationsExport;
 use App\Role;
 use App\User;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\api\BaseController as BaseController;
+use App\Insurance;
+use App\Penalty;
 
 class UserController extends BaseController
 {
@@ -194,9 +197,45 @@ class UserController extends BaseController
         return $this->sendResponse($employeeEdit, 'Employee password was updated successfully!');
     }
 
+    public function deleteRelatedData($job_id)
+    {
+        $vacationsDelete    = Vacation::where('job_id', $job_id)->get();
+        $evaluationsDelete  = Evaluation::where('job_id', $job_id)->get();
+        $followupsDelete    = FollowUp::where('job_id', $job_id)->get();
+        $insurancesDelete   = Insurance::where('job_id', $job_id)->get();
+        $penaltiesDelete    = Penalty::where('job_id', $job_id)->get();
+        if ($vacationsDelete) {
+            foreach ($vacationsDelete as $key => $vacationDelete) {
+                $vacationDelete->delete();
+            }
+        }
+        if ($evaluationsDelete) {
+            foreach ($evaluationsDelete as $key => $evaluationDelete) {
+                $evaluationDelete->delete();
+            }
+        }
+        if ($followupsDelete) {
+            foreach ($followupsDelete as $key => $followupDelete) {
+                $followupDelete->delete();
+            }
+        }
+        if ($insurancesDelete) {
+            foreach ($insurancesDelete as $key => $insuranceDelete) {
+                $insuranceDelete->delete();
+            }
+        }
+        if ($penaltiesDelete) {
+            foreach ($penaltiesDelete as $key => $penalty) {
+                $penalty->delete();
+            }
+        }
+    }
+
     public function delete(Request $request)
     {
-        User::where('job_id', $request->id)->delete();
+        $employeeDelete = User::where('job_id', $request->id)->first();
+        $this->deleteRelatedData($employeeDelete->job_id);
+        $employeeDelete->delete();
         session()->flash('success', trans('translate.update_success'));
         return redirect()->back();
     }
@@ -214,6 +253,7 @@ class UserController extends BaseController
             return $this->sendError('Validation Error.', $data->errors());
         }
         $employeeDelete = User::where('job_id', $request->job_id)->delete();
+        $this->deleteRelatedData($request->job_id);
         return $this->sendResponse($employeeDelete, 'Employee was deleted successfully!');
     }
 
@@ -222,7 +262,7 @@ class UserController extends BaseController
         $employeeCount = User::all()->count();
         $headCount = User::all()->where('role', '>', 0)->where('role', '!=', 99)->count();
         $vacationCount = Vacation::all()->where('request_status', '=', 3)->where('end_date', '>=', Carbon::today()->toDateString())->where('start_date', '<=', Carbon::today()->toDateString())->count();
-        $waitingVacations = Vacation::all()->whereIn('request_status', [1, 2])->where('end_date', '>=', Carbon::today()->toDateString());
+        $waitingVacations = Vacation::whereIn('request_status', [1, 2])->where('end_date', '>=', Carbon::today()->toDateString())->with('user')->get();
 
         $data = [
             'employeeCount' => $employeeCount,
@@ -252,7 +292,7 @@ class UserController extends BaseController
         $vacations = Vacation::where('request_status', 3)->where(function ($query) {
             $query->where('start_date', '>=', Carbon::today()->toDateString())
                 ->orWhere('end_date', '>=', Carbon::today()->toDateString());
-        })->where('start_date', '<=', Carbon::today()->toDateString())->get();
+        })->where('start_date', '<=', Carbon::today()->toDateString())->with('user')->get();
         // dd($vacations);
         $data['todayAcceptedVacations'] = $vacations;
         return $this->sendResponse($data, 'Statistics Count');
@@ -281,27 +321,23 @@ class UserController extends BaseController
         $data = Validator::make(
             $request->all(),
             [
-                'start_date' => 'required|date',
-                'end_date' => 'required|date',
+                'start_date' => 'required|date_format:m-d-Y',
+                'end_date' => 'required|date_format:m-d-Y',
             ]
         );
 
         if ($data->fails()) {
             return $this->sendError('Validation Error.', $data->errors());
         }
-        // $data = [];
-        // $vacations = Vacation::all()->where('request_status', '=', 3)->where('end_date', '<=', $request->end_date)->where('start_date', '>=', $request->start_date);
+
         $vacations = Vacation::where('request_status', 3)->where(function ($query) use ($request) {
-            $query->where('start_date', '>=', $request->start_date)
-                ->orWhere('end_date', '>=', $request->start_date);
-        })->where('start_date', '<=', $request->end_date)->get();
-        // dd($vacations);
-        // $data['vacationsBetweenStartAndEndDate'] = $vacations;
-        // $data['request'] = $request;
-        // // dd($request->all());
-        // if ($request->btndate == 2) {
-        //     return Excel::download(new VacationsExport($request), 'vacations.xls');
-        // }
+            $query->where('start_date', '>=', Carbon::createFromFormat('m-d-Y', $request->start_date))
+                ->orWhere('end_date', '>=', Carbon::createFromFormat('m-d-Y', $request->start_date));
+        })->where('start_date', '<=', Carbon::createFromFormat('m-d-Y', $request->end_date))->with('user')->get();
+
+        if (isset($request->btndate) && $request->btndate == 2) {
+            return Excel::download(new VacationsExport($request), 'vacations.xls');
+        }
         return $this->sendResponse($vacations, "all accepted vacations between $request->start_date and $request->end_date");
     }
 

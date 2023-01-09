@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-          @if ( Session::has('errors'))
+          @if ( Session::has('vacation_denied'))
             <div class="alert alert-danger col-12 mt-3 text-center">
-              @if ( session('errors') != null)
-              {{ session('errors') }}
+              @if ( session('vacation_denied') != null)
+              {{ session('vacation_denied') }}
               @endif
             </div>
           @endif

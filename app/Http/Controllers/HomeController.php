@@ -33,7 +33,7 @@ class HomeController extends BaseController
     {
         $user = Auth::user();
         $vacationRequests = null;
-        $error = null;
+        $vacation_denied = null;
 
         // for managers to accept or deny vacation requests
         if ($user->role >= 10 && $user->role < 12) {
@@ -47,13 +47,13 @@ class HomeController extends BaseController
         $deleteVacation = Vacation::all()->where('job_id', '=', $user->job_id)->where('request_status', '<>', 0)->where('end_date', '<', Carbon::today())->first();
         if (isset($vacation) && $vacation->request_status == 4) {
             $vacation->delete();
-            $error = trans('translate.vacation_denied_manager');
+            $vacation_denied = trans('translate.vacation_denied_manager');
         } elseif (isset($vacation) && $vacation->request_status == 5) {
             $deleteVacation->delete();
-            $error = trans('translate.vacation_denied_HR');
+            $vacation_denied = trans('translate.vacation_denied_HR');
         } elseif (isset($deleteVacation) && $deleteVacation->request_status != 3 && Carbon::today()->greaterThan($deleteVacation->end_date)) {
             $deleteVacation->delete();
-            $error = trans('translate.vacation_deleted');
+            $vacation_denied = trans('translate.vacation_deleted');
         }
 
         // dd($vacationRequests);
@@ -62,8 +62,8 @@ class HomeController extends BaseController
         }
 
         Session::flash(
-            'errors',
-            $error
+            'vacation_denied',
+            $vacation_denied
         );
         return view('home', ['user' => $user, 'vacationRequests' => $vacationRequests, 'vacation' => $vacation]);
     }
