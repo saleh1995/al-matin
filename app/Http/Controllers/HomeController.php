@@ -8,8 +8,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\api\BaseController;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\api\BaseController;
 
 class HomeController extends BaseController
 {
@@ -79,6 +80,20 @@ class HomeController extends BaseController
     public function upload()
     {
         return view('upload');
+    }
+
+    public function downloadAndroid()
+    {
+        //$filepath = a path for target file to be download
+        //$filename = filename for the downloaded file
+        //$headers = this is an array about the file content type to download
+        // 'apk' => 'application/vnd.android.package-archive'
+        // 'jar' => 'application/java-archive'
+
+        $path = public_path('android/al-matin.apk');
+        $fileName = 'al-matin.apk';
+
+        return Response::download($path, $fileName, ['Content-Type: application/vnd.android.package-archive']);
     }
 
     public function resetpassword()

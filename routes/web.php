@@ -32,26 +32,23 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
   Route::get('/', 'HomeController@index')->name('home');
   Route::get('/home', 'HomeController@index')->name('home');
+  Route::get('management/upload', 'HomeController@upload')->name('upload');
+  Route::get('/download/android', 'HomeController@downloadAndroid')->name('download.android');
+
   Route::get('/resetpassword', 'HomeController@resetpassword')->name('home.resetpassword');
   Route::post('/resetpassword', 'HomeController@resetPasswordPage')->name('home.resetpassword.post');
+
   Route::get('salary', 'SalaryController@show')->name('salary');
   Route::post('salary', 'SalaryController@upload')->name('salary.upload');
+
   Route::get('evaluation', 'EvaluationController@show')->name('evaluation');
   Route::post('evaluation', 'EvaluationController@upload')->name('evaluation.upload');
+
   Route::post('followup', 'FollowUpController@upload')->name('followup.upload');
-  Route::post('employees', 'UserController@upload')->name('employees.upload');
+  Route::post('followup/update', 'FollowUpController@update')->name('followup.update');
+
   Route::post('penalty', 'PenaltyController@upload')->name('penalty.upload');
   Route::post('insurance', 'InsuranceController@upload')->name('insurance.upload');
-
-
-  Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('user.departmentEmployees');
-  Route::get('departmentEmployees/vacations', 'VacationController@showAll')->name('vacations');
-  Route::get('departmentEmployees/vacations/accept/{id}', 'VacationController@accept')->name('vacations.accept');
-  Route::get('departmentEmployees/vacations/deny/{id}', 'VacationController@deny')->name('vacations.deny');
-
-  Route::get('vacation', 'VacationController@show')->name('vacation');
-  Route::post('vacation', 'VacationController@makeRequest')->name('vacation.makeRequest');
-  Route::get('vacation/deleteRequest/{id}', 'VacationController@deleteRequest')->name('vacation.deleteRequest');
 
 
   Route::get('management', 'UserController@management')->name('user.management');
@@ -65,7 +62,13 @@ Route::middleware('auth')->group(function () {
   Route::post('management/statistics', 'UserController@statisticsVacation')->name('user.statisticsVacation');
   Route::get('management/statistics/vacations/excel/export', 'UserController@statisticsVacationExcelExport')->name('user.statisticsVacationExcelExport');
 
-  Route::get('management/upload', 'HomeController@upload')->name('upload');
+  Route::post('employees', 'UserController@upload')->name('employees.upload');
+  Route::get('departmentEmployees', 'UserController@departmentEmployees')->name('user.departmentEmployees');
 
-  Route::post('followup/update', 'FollowUpController@update')->name('followup.update');
+  Route::get('departmentEmployees/vacations', 'VacationController@showAll')->name('vacations');
+  Route::get('departmentEmployees/vacations/accept/{id}', 'VacationController@accept')->name('vacations.accept');
+  Route::get('departmentEmployees/vacations/deny/{id}', 'VacationController@deny')->name('vacations.deny');
+  Route::get('vacation', 'VacationController@show')->name('vacation');
+  Route::post('vacation', 'VacationController@makeRequest')->name('vacation.makeRequest');
+  Route::get('vacation/deleteRequest/{id}', 'VacationController@deleteRequest')->name('vacation.deleteRequest');
 });

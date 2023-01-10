@@ -35,7 +35,7 @@
               <a class="dropdown-item" href="{{ route('home.resetpassword') }}">
                 {{ __('translate.change_password') }}
                 </a>
-              <a class="dropdown-item" href="{{ url('/') }}">
+              <a class="dropdown-item" href="{{ route('download.android') }}">
                 {{ __('translate.download_android') }}  
               </a>
               <a class="dropdown-item" href="{{ route('logout') }}"
